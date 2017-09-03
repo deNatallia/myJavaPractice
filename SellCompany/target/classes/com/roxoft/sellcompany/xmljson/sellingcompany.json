@@ -1,0 +1,174 @@
+{
+	"sellingCompany": [
+		{
+			"shops": [
+				{
+					"supermarkets":[
+						{
+							"name": "SM1",
+							"address":
+							{
+								"country": "Belarus",
+								"city": "Minsk",
+								"street": "Kolosa",
+								"houseNum": 10
+							},
+							"shopType": "supermarket",
+							"staffNum": 15,
+							"newArrivalDate": "11-11-2017",
+							"square": 360,
+							"sectionNum": 6
+						},
+						{
+							"name": "SM2",
+							"address":
+							{
+								"country": "Ukraine",
+								"city": "Kiev",
+								"street": "Shevchenki",
+								"houseNum": 1
+							},
+							"shopType": "supermarket",
+							"staffNum": 12,
+							"newArrivalDate": "15-10-2017",
+							"square": 250,
+							"sectionNum": 5
+						}
+					]
+				},
+				{
+					"onlineShops": [
+						{
+							"name": "1K",
+							"address":
+							{
+								"country": "Belarus",
+								"city": "Minsk",
+								"street": "Sedyh",
+								"houseNum": 3
+							},
+							"shopType": "onlineshop",
+							"staffNum": 10,
+							"newArrivalDate": "03-09-2017",
+							"site": "www.1k.by",
+							"managersNum": 6
+						},
+						{
+							"name": "BestOnline",
+							"address":
+							{
+								"country": "Ukraine",
+								"city": "Kiev",
+								"street": "Gogolya",
+								"houseNum": 19
+							},
+							"shopType": "onlineshop",
+							"staffNum": 15,
+							"newArrivalDate": "25-10-2017",
+							"site": "www.bestonline.ua",
+							"managersNum": 10
+						}
+					]
+				},
+				{
+					"pavilions": [
+						{
+							"name": "Flowers",
+							"address":
+							{
+								"country": "Belarus",
+								"city": "Minsk",
+								"street": "Kirova",
+								"houseNum": 3
+							},
+							"placeNum": 6,
+							"shopType": "pavilion",
+							"staffNum": 2,
+							"newArrivalDate": "18-08-2017"
+						},
+						{
+							"name": "Podaro4ki",
+							"address":
+							{
+								"country": "Ukraine",
+								"city": "Kiev",
+								"street": "Maidan",
+								"houseNum": 1
+							},
+							"placeNum": 106,
+							"shopType": "pavilion",
+							"staffNum": 2,
+							"newArrivalDate": "29-09-2017"
+						}
+					]
+				}
+			]
+		},
+		{
+			"storeHouses": [
+				{
+					"factoryStores": [
+						{
+							"name": "Neman",
+							"address":
+							{
+								"country": "Belarus",
+								"city": "Grodno",
+								"street": "Perehodnaya",
+								"houseNum": 3
+							},
+							"square": 6000,
+							"loaderNum": 12,
+							"goods": ["glasses", "glass figures", "vases"]
+						},
+						{
+							"name": "Leva",
+							"address":
+							{
+								"country": "Belarus",
+								"city": "Mogilev",
+								"street": "Sovetskaya",
+								"houseNum": 105
+							},
+							"square": 1000,
+							"loaderNum": 5,
+							"goods": ["ice cream", "ice cake", "deserts"]
+						}
+					]
+				},
+				{
+					"logisicStores": [
+						{
+							"name": "HappyChoco",
+							"address":
+							{
+								"country": "Belarus",
+								"city": "Minsk",
+								"street": "Industrialnaya",
+								"houseNum": 5
+							},
+							"square": 3000,
+							"loaderNum": 10,
+							"producers": ["milka", "rittersport", "haribo"],
+							"newArrivalDate": "29-09-2017"
+						},
+						{
+							"name": "Kastorama",
+							"address":
+							{
+								"country": "Belarus",
+								"city": "Brest",
+								"street": "Polevaya",
+								"houseNum": 25
+							},
+							"square": 5000,
+							"loaderNum": 17,
+							"producers": ["bosch", "lesprom", "keramin"],
+							"newArrivalDate": "12-09-2017"
+						}
+					]
+				}
+			]
+		}
+	]
+}

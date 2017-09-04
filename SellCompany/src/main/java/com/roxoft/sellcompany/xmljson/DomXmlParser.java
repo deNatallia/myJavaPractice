@@ -1,5 +1,6 @@
 package com.roxoft.sellcompany.xmljson;
 
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -20,7 +21,9 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import java.io.File;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 //import org.apache.log4j.Logger;
@@ -44,8 +47,10 @@ public class DomXmlParser {
 	public static int takeSectionNum(Element t){
 		return Integer.parseInt(t.getElementsByTagName("sectionNum").item(0).getTextContent());
 	}
-	public static String takeDate(Element t){
-		return t.getElementsByTagName("newArrivalDate").item(0).getTextContent();
+	public static Date takeDate(Element t) throws DOMException, ParseException{
+		SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
+		Date nd = sf.parse(t.getElementsByTagName("newArrivalDate").item(0).getTextContent());
+		return nd;
 	}
 	public static String takeSite(Element t){
 		return t.getElementsByTagName("site").item(0).getTextContent();
@@ -100,7 +105,7 @@ public class DomXmlParser {
 		List<FactoryStore> fsList = new ArrayList<FactoryStore>();
 		
 		try {
-			File file = new File("src/main/resources/sellingcompany.xml");
+			File file = new File("src/main/resources/com/roxoft/sellcompany/sellingcompany.xml");
 			DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = f.newDocumentBuilder();
 			Document doc = builder.parse(file);
@@ -108,7 +113,6 @@ public class DomXmlParser {
 			Element root = doc.getDocumentElement();
 			
 			NodeList smNList = root.getElementsByTagName("supermarket");
-			System.out.println(smNList.getLength());
 			for (int i=0; i<smNList.getLength(); i++){
 				Node smNode = smNList.item(i);
 				Supermarket smk = new Supermarket();
@@ -126,7 +130,6 @@ public class DomXmlParser {
 					smList.add(smk);
 				}
 			}
-			System.out.println(smList.size());
 			for (Supermarket s: smList){
 				System.out.println(s.toString());
 			}

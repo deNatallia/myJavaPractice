@@ -37,7 +37,7 @@ public class Runner {
 		m1.setSquare(15);
 		m1.setStaffNum(15);
 		m1.setSectionNum(3);
-		m1.setNewArrivalDate("15-10-2017");
+//		m1.setNewArrivalDate("15-10-2017");
 		
 		Supermarket m2 = new Supermarket(null, null, null, 0, null, 0, 0);
 		Address m2Address=new Address();
@@ -50,7 +50,7 @@ public class Runner {
 		m2.setSquare(150);
 		m2.setStaffNum(35);
 		m2.setSectionNum(9);
-		m2.setNewArrivalDate("17-08-2017");
+//		m2.setNewArrivalDate("17-08-2017");
 		
 		Shop m3 = new Supermarket(null, null, null, 0, null, 0, 0);				//  type redefining
 		Address m3Address=new Address();
@@ -63,12 +63,12 @@ public class Runner {
 		((Supermarket)m3).setSquare(30);
 		m3.setStaffNum(5);
 		((Supermarket)m3).setSectionNum(2);
-		m3.setNewArrivalDate("01-01-2018");
+//		m3.setNewArrivalDate("01-01-2018");
 		
 		
 		SellCompany m4 = new OnlineShop(null, null, null, 0, null, null, 0);		 //  type redefining
 		((OnlineShop)m4).setName("1K");
-		((OnlineShop)m4).setNewArrivalDate("11-11-2017");
+//		((OnlineShop)m4).setNewArrivalDate("11-11-2017");
 		Shop shop=new OnlineShop(null, null, null, 0, null, null, 0);				//  type redefining
 		if (shop instanceof OnlineShop){
 			OnlineShop m5 = (OnlineShop)shop;
@@ -148,7 +148,7 @@ public class Runner {
 		//work with Date
 		LogisticStore Logi = new LogisticStore(null, m3Address, 0, 0, null, null);
 		Logi.setName("Logi");
-		Logi.setNewArrivalDate("10-12-2018");
+//		Logi.setNewArrivalDate("10-12-2018");
 		
 		LOGGER.info("New arrivals in " + Logi.getName() + " at: " + Logi.getNewArrivalDate());
 		LOGGER.info("New arrivals in " + m1.getName() + " at: " + m1.getNewArrivalDate());

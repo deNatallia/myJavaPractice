@@ -1,22 +1,23 @@
 package com.roxoft.sellcompany.models.storehouse;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.roxoft.sellcompany.Address;
 import com.roxoft.sellcompany.models.StoreHouse;
+import com.roxoft.sellcompany.xmljson.JaxbDateAdapter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @XmlRootElement (name="logisticStore")
@@ -76,15 +77,27 @@ public class LogisticStore extends StoreHouse {
 	public void setProducers(LinkedList<String> producers) {
 		this.producers = producers;
 	}
-
-	public String getNewArrivalDate() {
-		SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
-		return sf.format(newArrivalDate);
+	
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
+	public Date getNewArrivalDate() {
+		return newArrivalDate;
 	}
 	@XmlElement
+	@XmlJavaTypeAdapter(JaxbDateAdapter.class)
 	@JsonSetter
-	public void setNewArrivalDate(String newDate) throws ParseException {
-		SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
-		this.newArrivalDate = sf.parse(newDate);		
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
+	public void setNewArrivalDate(Date newArrivalDate) {
+		this.newArrivalDate = newArrivalDate;
 	}
+
+//	public String getNewArrivalDate() {
+//		SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
+//		return sf.format(newArrivalDate);
+//	}
+//	@XmlElement
+//	@JsonSetter
+//	public void setNewArrivalDate(String newDate) throws ParseException {
+//		SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
+//		this.newArrivalDate = sf.parse(newDate);		
+//	}
 }

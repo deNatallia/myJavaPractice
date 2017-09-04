@@ -24,7 +24,7 @@ public class StoreHouses {
 	}
 	@XmlElementWrapper(name="logisticStores")
 	@XmlElement (type = LogisticStore.class, name="logisticStore", required=true)
-	@JsonSetter
+	@JsonSetter ("logisticStores")
 	public void setLogisticStores(List<LogisticStore> logisticStores) {
 		this.logisticStores = logisticStores;
 	}
@@ -33,7 +33,7 @@ public class StoreHouses {
 	}
 	@XmlElementWrapper(name="factoryStores")
 	@XmlElement (type = FactoryStore.class, name="factoryStore",required=true)
-	@JsonSetter
+	@JsonSetter ("factoryStores")
 	public void setFactoryStores(List<FactoryStore> factoryStores) {
 		this.factoryStores = factoryStores;
 	}

@@ -1,15 +1,16 @@
 package com.roxoft.sellcompany.models;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.roxoft.sellcompany.Address;
 import com.roxoft.sellcompany.SellCompany;
+import com.roxoft.sellcompany.xmljson.JaxbDateAdapter;
 
 /**
  * This is an abstract class for Shops
@@ -54,24 +55,34 @@ public abstract class Shop extends SellCompany implements IClean, IWork{
 	public void setStaffNum(int staffNum) {
 		this.staffNum = staffNum;
 	}
-
-	/** Get date of new arrival of goods in set format
-	 * @return String newArrivalDate in dd-MM-yyyy
-	 */
-	public String getNewArrivalDate() {
-		SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
-		return sf.format(newArrivalDate);
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
+	public Date getNewArrivalDate() {
+		return newArrivalDate;
 	}
-	/**
-	 * Set the date of new arrival with handling exception
-	 * @param newDate - String date of new arrivals
-	 * @throws ParseException
-	 */
 	@XmlElement
+	@XmlJavaTypeAdapter(JaxbDateAdapter.class)
 	@JsonSetter
-	public void setNewArrivalDate(String newDate) throws ParseException {
-		SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
-		this.newArrivalDate = sf.parse(newDate);		
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
+	public void setNewArrivalDate(Date newArrivalDate) {
+		this.newArrivalDate = newArrivalDate;
 	}
+//	/** Get date of new arrival of goods in set format
+//	 * @return String newArrivalDate in dd-MM-yyyy
+//	 */
+//	public String getNewArrivalDate() {
+//		SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
+//		return sf.format(newArrivalDate);
+//	}
+//	/**
+//	 * Set the date of new arrival with handling exception
+//	 * @param newDate - String date of new arrivals
+//	 * @throws ParseException
+//	 */
+//	@XmlElement
+//	@JsonSetter
+//	public void setNewArrivalDate(String newDate) throws ParseException {
+//		SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
+//		this.newArrivalDate = sf.parse(newDate);		
+//	}
 
 }

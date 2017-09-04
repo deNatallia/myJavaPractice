@@ -6,11 +6,10 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
+//@JsonIgnoreProperties(ignoreUnknown = true)
 @XmlRootElement(name="sellingCompany")
 public class SellingCompany {
 	@JsonProperty
@@ -22,7 +21,7 @@ public class SellingCompany {
 		return shops;
 	}
 	@XmlElement (name = "shops")
-	@JsonSetter
+	@JsonSetter ("shops")
 	public void setShops(List<Shops> shops) {
 		this.shops = shops;
 	}
@@ -31,7 +30,7 @@ public class SellingCompany {
 		return storeHouses;
 	}
 	@XmlElement (name = "storeHouses")
-	@JsonSetter
+	@JsonSetter ("storeHouses")
 	public void setStoreHouses(List<StoreHouses> storeHouses) {
 		this.storeHouses = storeHouses;
 	}

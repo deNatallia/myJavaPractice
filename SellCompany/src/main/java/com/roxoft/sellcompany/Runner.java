@@ -157,7 +157,7 @@ public class Runner {
 		LOGGER.info("New arrivals in " + m4.getName() + " at: " + ((OnlineShop)m4).getNewArrivalDate());
 		
 		//work with File
-		File xfile = new File("src/com/roxoft/sellcompany/inheritance.txt");
+		File xfile = new File("src/main/resources/com/roxoft/sellcompany/inheritance.txt");
 		try {
 			String mytext = FileUtils.readFileToString(xfile,"UTF-8");
 			LOGGER.info(mytext);

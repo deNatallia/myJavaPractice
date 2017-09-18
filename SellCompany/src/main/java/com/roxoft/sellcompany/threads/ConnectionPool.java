@@ -46,6 +46,7 @@ public class ConnectionPool {
 		}
 		else if (usingConn.size() < MAX_CONN){
 			conn = new Connection();
+			usingConn.add(conn);
 		}
 		else {
 			this.getConnection();

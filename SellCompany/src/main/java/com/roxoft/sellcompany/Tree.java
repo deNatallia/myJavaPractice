@@ -6,7 +6,7 @@ import org.apache.logging.log4j.Logger;
 import com.roxoft.sellcompany.threads.MyDeadlock;
 
 public class Tree {
-	private final static Logger log = LogManager.getLogger(MyDeadlock.class.getName());
+	private final static Logger log = LogManager.getLogger(MyDeadlock.class);
 	private Node root;
 
 	public Tree() {

@@ -23,7 +23,7 @@ import org.apache.commons.io.*;
 import com.roxoft.sellcompany.models.Shop;
 
 public class Runner {
-	private final static Logger LOGGER = LogManager.getLogger(Runner.class.getName());
+	private final static Logger LOGGER = LogManager.getLogger(Runner.class);
 	
 	public static void main(String[] args) throws ParseException, InvalidValueException{
 		Supermarket m1 = new Supermarket(null, null, null, 0, null, 0, 0);

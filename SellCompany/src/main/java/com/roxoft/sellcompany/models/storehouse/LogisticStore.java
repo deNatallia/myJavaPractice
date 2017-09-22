@@ -22,7 +22,7 @@ import com.roxoft.sellcompany.xmljson.JaxbDateAdapter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @XmlRootElement (name="logisticStore")
 public class LogisticStore extends StoreHouse {
-	private final static Logger LOGGER = LogManager.getLogger(LogisticStore.class.getName());
+	private final static Logger LOGGER = LogManager.getLogger(LogisticStore.class);
 	@JsonProperty
 	private LinkedList<String> producers;
 	@JsonProperty

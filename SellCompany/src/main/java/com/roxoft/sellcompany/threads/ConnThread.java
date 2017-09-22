@@ -1,11 +1,19 @@
 package com.roxoft.sellcompany.threads;
 
 import org.apache.logging.log4j.Logger;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import org.apache.logging.log4j.LogManager;
 
 public class ConnThread extends Thread{
-	private final static Logger LOGGER = LogManager.getLogger(ConnThread.class.getName());
-	private ConnectionPool pool; 
+	private final static Logger LOGGER = LogManager.getLogger(ConnThread.class);
+	private ConnectionPool pool;
+	private Statement st;
+	private ResultSet rs;
 	
 	ConnThread(ConnectionPool pool){
 		this.pool = pool;
@@ -17,13 +25,27 @@ public class ConnThread extends Thread{
 		Connection conn = null;
 		try {
 			conn = pool.getConnection();
-			LOGGER.info(this + " is connected");
-			Thread.sleep(300);
+			st = conn.createStatement();
+			rs = st.executeQuery("select * from onlineshops where id=1");
+			while (rs.next()){
+				System.out.println(rs.getString("name"));
+			}
+
 		}
-		catch (InterruptedException e) {
+		catch (SQLException | InterruptedException e) {
 			LOGGER.error("connection error");
 		}
 		finally{
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				st.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 			if (conn != null){
 				pool.returnConnection(conn);
 				LOGGER.info(this + " was disconnected");

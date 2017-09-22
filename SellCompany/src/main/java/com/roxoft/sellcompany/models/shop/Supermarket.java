@@ -19,7 +19,7 @@ import com.roxoft.sellcompany.models.ShopType;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @XmlRootElement(name="supermarket")
 public class Supermarket extends Shop{
-	private final static Logger LOGGER = LogManager.getLogger(Supermarket.class.getName());
+	private final static Logger LOGGER = LogManager.getLogger(Supermarket.class);
 	@JsonProperty
 	private int square;
 	@JsonProperty

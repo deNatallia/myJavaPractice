@@ -13,7 +13,7 @@ import com.roxoft.sellcompany.Address;
 import com.roxoft.sellcompany.models.StoreHouse;
 
 public class FactoryStore extends StoreHouse {
-	private final static Logger LOGGER = LogManager.getLogger(StoreHouse.class.getName());
+	private final static Logger LOGGER = LogManager.getLogger(StoreHouse.class);
 	@JsonProperty
 	private LinkedList<String> goods;
 	

@@ -14,7 +14,7 @@ import com.roxoft.sellcompany.models.Shop;
 import com.roxoft.sellcompany.models.ShopType;
 
 public class OnlineShop extends Shop{
-	private final static Logger LOGGER = LogManager.getLogger(OnlineShop.class.getName());
+	private final static Logger LOGGER = LogManager.getLogger(OnlineShop.class);
 	@JsonProperty
 	private String site;
 	@JsonProperty
@@ -31,7 +31,7 @@ public class OnlineShop extends Shop{
 	
 	@Override
 	public void sell(){
-		LOGGER.info("online selling");
+		System.out.println("online selling");
 	}
 	
 	public void saleOut(){

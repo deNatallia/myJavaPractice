@@ -1,11 +1,8 @@
 package com.roxoft.sellcompany.threads;
 
 import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
@@ -24,27 +21,32 @@ public class ConnectionPool {
 	private static ConnectionPool instance;
 	private BlockingQueue<Connection> availableConn = new ArrayBlockingQueue<Connection>(MAX_CONN);
 	private int usingConnNum = 0;
+	private static String driver;
+	private static String host;
+	private static String user;
+	private static String password;
 	
-	private static Properties prop = new Properties();
-	try {
-		InputStream ist = new FileInputStream("src/main/resources/env.properties");
-		prop.load(ist);
+	public static void initProperties(){
+		Properties prop = new Properties();
+		try {
+			InputStream ist = new FileInputStream("src/main/resources/com/roxsoft/sellcompany/env.properties");
+			prop.load(ist);
+		}
+		catch (Exception ie) {
+			LOGGER.error("file not found");
+		}
+		driver = prop.getProperty("jdbc.driver");
+		host = prop.getProperty("jdbc.host");
+		user = prop.getProperty("jdbc.user");
+		password = prop.getProperty("jdbc.password");
+		
+		try {
+			Class.forName(driver);
+		}
+		catch (ClassNotFoundException e){
+			LOGGER.error(e.getStackTrace());
+		}
 	}
-	catch (Exception ie) {
-		LOGGER.error("file not found");
-	}
-	private static final String driver = prop.getProperty("jdbc.driver");
-	private static final String host = prop.getProperty("jdbc.host");
-	private static final String user = prop.getProperty("jdbc.user");
-	private static final String pass = prop.getProperty("jdbc.password");
-	
-	try {
-		Class.forName(driver);
-	}
-	catch (ClassNotFoundException e){
-		LOGGER.error(e.getStackTrace());
-	}
-	
 //	private final String host = "jdbc:mysql://localhost:3306/sellcompany";
 //	private final String user = "root";
 //	private final String pass = "1234";
@@ -72,6 +74,7 @@ public class ConnectionPool {
 	
 	public Connection getConnection() throws InterruptedException{
 		Connection conn = null;
+		initProperties();
 		if (availableConn.size()!=0) {
 			try {
 				conn = availableConn.poll(200, TimeUnit.MILLISECONDS);
@@ -82,7 +85,7 @@ public class ConnectionPool {
 		}
 		else if (usingConnNum < MAX_CONN){
 			try{
-				conn = DriverManager.getConnection(host,user,pass);
+				conn = DriverManager.getConnection(host,user,password);
 			}
 			catch (SQLException e){
 				LOGGER.error(e.getSQLState());

@@ -16,7 +16,6 @@ import com.roxoft.sellcompany.models.shop.Pavilion;
 import com.roxoft.sellcompany.models.shop.Supermarket;
 import com.roxoft.sellcompany.models.storehouse.FactoryStore;
 import com.roxoft.sellcompany.models.storehouse.LogisticStore;
-
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import java.io.File;
@@ -26,10 +25,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-//import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 public class DomXmlParser {
-	//private final static Logger log = Logger.getLogger(DomXmlParser.class);
+	private final static Logger LOGGER = LogManager.getLogger(DomXmlParser.class);
 	
 	public static ShopType takeShopType(Element t){
 		return ShopType.valueOf(t.getElementsByTagName("shopType").item(0).getTextContent());
@@ -131,7 +131,7 @@ public class DomXmlParser {
 				}
 			}
 			for (Supermarket s: smList){
-				System.out.println(s.toString());
+				LOGGER.info(s.toString());
 			}
 			
 			NodeList osNList = root.getElementsByTagName("onlineShop");
@@ -152,7 +152,7 @@ public class DomXmlParser {
 				}
 			}
 			for (OnlineShop s: osList){
-				System.out.println(s.toString());
+				LOGGER.info(s.toString());
 			}
 			
 			NodeList pavNList = root.getElementsByTagName("pavilion");
@@ -172,7 +172,7 @@ public class DomXmlParser {
 				}
 			}
 			for (Pavilion s: pvList){
-				System.out.println(s.toString());
+				LOGGER.info(s.toString());
 			}
 			
 			NodeList lsNList = root.getElementsByTagName("logisticStore");
@@ -193,7 +193,7 @@ public class DomXmlParser {
 				}
 			}
 			for (LogisticStore s: lsList){
-				System.out.println(s.toString());
+				LOGGER.info(s.toString());
 			}
 			
 			NodeList fsNList = root.getElementsByTagName("factoryStore");
@@ -213,12 +213,12 @@ public class DomXmlParser {
 				}
 			}
 			for (FactoryStore s: fsList){
-				System.out.println(s.toString());
+				LOGGER.info(s.toString());
 			}
 
 		}
 		catch (Exception e){
-			System.out.println(e.getMessage());
+			LOGGER.info(e.getMessage());
 		}
 	}
 		

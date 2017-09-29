@@ -9,7 +9,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
-//@JsonIgnoreProperties(ignoreUnknown = true)
 @XmlRootElement(name="sellingCompany")
 public class SellingCompany {
 	@JsonProperty

@@ -11,11 +11,12 @@ import com.roxoft.sellcompany.models.shop.Supermarket;
 import com.roxoft.sellcompany.models.storehouse.FactoryStore;
 import com.roxoft.sellcompany.models.storehouse.LogisticStore;
 
-//import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 public class JAXBparser {
 
-	//private final static Logger log = Logger.getLogger(JAXBparser.class);
+	private final static Logger LOGGER = LogManager.getLogger(JAXBparser.class);
 	
 	public static void main(String[] args) throws Exception{
 		try {
@@ -26,27 +27,26 @@ public class JAXBparser {
 			SellingCompany sc = (SellingCompany)unmarshaller.unmarshal(xml);
 			for (Shops s: sc.getShops()){
 				for (Supermarket sm: s.getSupermarkets()){
-					System.out.println(sm.toString());
+					LOGGER.info(sm.toString());
 				}
 				for (OnlineShop os: s.getOnlineshops()){
-					System.out.println(os.toString());
+					LOGGER.info(os.toString());
 				}
 				for (Pavilion pv: s.getPavilions()){
-					System.out.println(pv.toString());
+					LOGGER.info(pv.toString());
 				}
 			}
 			for (StoreHouses s: sc.getStoreHouses()){
 				for (LogisticStore ls: s.getLogisticStores()){
-					System.out.println(ls.toString());
+					LOGGER.info(ls.toString());
 				}
 				for (FactoryStore fs: s.getFactoryStores()){
-					System.out.println(fs.toString());
+					LOGGER.info(fs.toString());
 				}
 			}
 			
 		} catch (JAXBException e) {
-			//log.error("JAXBException accured");
-			e.printStackTrace();
+			LOGGER.error("JAXBException accured", e.getCause());
 		}
 	
 		

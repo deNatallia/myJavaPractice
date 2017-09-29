@@ -20,43 +20,23 @@ public class ConnectionPool {
 	private final static int MAX_CONN = 3;
 	private static ConnectionPool instance;
 	private BlockingQueue<Connection> availableConn = new ArrayBlockingQueue<Connection>(MAX_CONN);
-	private int usingConnNum = 0;
-	private static String driver;
-	private static String host;
-	private static String user;
-	private static String password;
+	private volatile int usingConnNum = 0;
+	private String driver;
+	private String host;
+	private String user;
+	private String password;
 	
-	public static void initProperties(){
+	public Properties initProperties(){
 		Properties prop = new Properties();
 		try {
-			InputStream ist = new FileInputStream("src/main/resources/com/roxsoft/sellcompany/env.properties");
+			InputStream ist = new FileInputStream("src/main/resources/com/roxoft/sellcompany/env.properties");
 			prop.load(ist);
 		}
 		catch (Exception ie) {
 			LOGGER.error("file not found");
 		}
-		driver = prop.getProperty("jdbc.driver");
-		host = prop.getProperty("jdbc.host");
-		user = prop.getProperty("jdbc.user");
-		password = prop.getProperty("jdbc.password");
-		
-		try {
-			Class.forName(driver);
-		}
-		catch (ClassNotFoundException e){
-			LOGGER.error(e.getStackTrace());
-		}
+		return prop;
 	}
-//	private final String host = "jdbc:mysql://localhost:3306/sellcompany";
-//	private final String user = "root";
-//	private final String pass = "1234";
-//	try {
-//		Class.forName("com.mysql.jdbc.Driver");
-//	}
-//	catch (Exception e) {
-//		LOGGER.error(e.getStackTrace());
-//	}
-	
 	
 	public static ConnectionPool getInstance(){
 		Lock lock = new ReentrantLock();
@@ -73,17 +53,19 @@ public class ConnectionPool {
 	}
 	
 	public Connection getConnection() throws InterruptedException{
-		Connection conn = null;
-		initProperties();
-		if (availableConn.size()!=0) {
-			try {
-				conn = availableConn.poll(200, TimeUnit.MILLISECONDS);
-			}
-			catch (InterruptedException e) {
-				LOGGER.error("InterruptedException");
-			}
+		Properties prop = initProperties();
+		driver = prop.getProperty("jdbc.driver");
+		host = prop.getProperty("jdbc.host");
+		user = prop.getProperty("jdbc.user");
+		password = prop.getProperty("jdbc.password");
+		try {
+			Class.forName(driver);
 		}
-		else if (usingConnNum < MAX_CONN){
+		catch (ClassNotFoundException e){
+			LOGGER.error(e.getStackTrace());
+		}
+		Connection conn = null;
+		if (availableConn.isEmpty() && usingConnNum < MAX_CONN){
 			try{
 				conn = DriverManager.getConnection(host,user,password);
 			}
@@ -91,8 +73,16 @@ public class ConnectionPool {
 				LOGGER.error(e.getSQLState());
 			}
 		}
+		else if (availableConn.size()!=0) {
+			try {
+				conn = availableConn.poll(200, TimeUnit.MILLISECONDS);
+			}
+			catch (InterruptedException e) {
+				LOGGER.error("InterruptedException");
+			}
+		}
 		else {
-			this.getConnection();
+			getConnection();
 		}
 		usingConnNum++;
 		return conn;
@@ -121,4 +111,5 @@ public class ConnectionPool {
 		this.usingConnNum = usingConnNum;
 	}
 	
+
 }

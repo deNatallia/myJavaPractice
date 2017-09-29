@@ -91,12 +91,12 @@ public class Runner {
 		m3.saleOut();
 		((Shop)m4).saleOut();		//  type redefining
 		
-		System.out.println();
+		LOGGER.info("\n");
 		
 		m4.sell();
-		System.out.println();
+		LOGGER.info("\n");
 		((Shop)m4).sell();
-		System.out.println();
+		LOGGER.info("\n");
 		((OnlineShop)m4).takeOrder();			// redefining type
 		
 		LOGGER.info("\n");
@@ -191,7 +191,7 @@ public class Runner {
 			LOGGER.info(treeIterator.next()+" ");
 		}
 		
-		System.out.println();
+		LOGGER.info("\n");
 		
 		// My Tree Collection		
 		Tree theTree = new Tree();

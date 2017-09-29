@@ -1,4 +1,4 @@
-package Reflection;
+package com.roxsoft.sellcompany.reflection;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -8,9 +8,13 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 
 import com.roxoft.sellcompany.models.shop.OnlineShop;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 public class ClassInfo {
 
+	private final static Logger LOGGER = LogManager.getLogger(ClassInfo.class);
+	
 	public static void main(String[] args){
 		OnlineShop www = new OnlineShop();
 		Class<? extends OnlineShop> c = www.getClass();
@@ -22,59 +26,52 @@ public class ClassInfo {
 		
 		int mods = c.getModifiers();
 		
-		System.out.println(Modifier.toString(mods) + " " + s + " extends " + sc);
+		LOGGER.info(Modifier.toString(mods) + " " + s + " extends " + sc);
 
 		
 		Class<?>[] interfaces = c.getInterfaces();
 		for (Class<?> cInterface: interfaces){
-			System.out.println(cInterface.getName());
+			LOGGER.info(cInterface.getName());
 		}
 		
-		System.out.println("Have fields: ");
+		LOGGER.info("Have fields: ");
 		
 		Field[] cfields = c.getDeclaredFields();
 		for (Field field : cfields){
 			Class<?> fieldType = field.getType();
-			System.out.println(Modifier.toString(field.getModifiers()) + " " + field.getName() + " (" + fieldType.getName()+")");
+			LOGGER.info(Modifier.toString(field.getModifiers()) + " " + field.getName() + " (" + fieldType.getName()+")");
 		}
 		
-		System.out.println("Constructors: ");
+		LOGGER.info("Constructors: ");
 		
 		Constructor<?>[] constructors = c.getDeclaredConstructors();
-		for (Constructor constr : constructors){
-			System.out.println(Modifier.toString(constr.getModifiers()) + " " + c.getSimpleName() + "(" );
+		for (Constructor<?> constr : constructors){
+			LOGGER.info(Modifier.toString(constr.getModifiers()) + " " + c.getSimpleName() + "(" );
 //			Class[] paramTypes = constr.getParameterTypes();
 //			for (Class paramT : paramTypes){
 //				System.out.println(paramT.getName());
 //			}
 			for (Parameter p:constr.getParameters()){
-				System.out.println(p.getType().getName());
+				LOGGER.info(p.getType().getName());
 			}
 		}
 		
-		System.out.println("Have methods: ");
+		LOGGER.info("Have methods: ");
 		
 		Method[] methods = c.getDeclaredMethods();
 		for (Method method : methods){
 			int mmods = method.getModifiers();
-			Class[] paramTypes = method.getParameterTypes();
-			System.out.println(Modifier.toString(method.getModifiers()) + " " + method.getName() + "() returns " + method.getReturnType().getName());
+			Class<?>[] paramTypes = method.getParameterTypes();
+			LOGGER.info(Modifier.toString(method.getModifiers()) + " " + method.getName() + "() returns " + method.getReturnType().getName());
 		}
 		
 		//method call
 		try {
-			Class[] paramT = new Class[] {};
-			Method method = c.getDeclaredMethod("sell",paramT);
-			Object[] ar = new Object[]{};
-			try {
-				System.out.println(method.invoke(www, ar));
-			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-				e.printStackTrace();
-			}
-		} catch (NoSuchMethodException | SecurityException e) {
-			e.printStackTrace();
+			Method method = c.getDeclaredMethod("sell");
+			method.invoke(new OnlineShop());
+		} catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			LOGGER.info(e.getStackTrace());
 		}
-		
 	}
 	
 }

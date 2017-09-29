@@ -20,7 +20,7 @@ public class LoadingCar implements Runnable  {
 	public void run()
 	{
 		try {
-			System.out.println(name + " waiting for loading");
+			LOGGER.info(name + " waiting for loading");
 			sem.acquire();
 					
 			for (int i=1; i<palletsNum; i++){

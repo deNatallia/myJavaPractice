@@ -29,7 +29,6 @@ public abstract class Shop extends SellCompany implements IClean, IWork{
 	private Date newArrivalDate;
 	
 	public Shop(){};
-	
 	public Shop(String name, Address address, ShopType shopType, int staffNum, Date newArrivalDate){
 		super(name, address);
 	}

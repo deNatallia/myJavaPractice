@@ -55,7 +55,7 @@ public class Supermarket extends Shop{
 	
 	@Override	
 	public String toString(){
-		return "Company name: " + getName()+ "; ShopType: " + getShopType() + "; Address: " + getAddress() + "; Number of staff: " + getStaffNum() + "; Number of sections: " + sectionNum;
+		return "Company name: " + getName()+ "; " + "; Address: " + getAddress() + "; Number of staff: " + getStaffNum() + "; Number of sections: " + sectionNum;
 	}
 	
 	public int getSquare() {

@@ -25,5 +25,11 @@ public enum City {
 	@JsonProperty
 	ODESSA,
 	@JsonProperty
-	KHARKOV
+	KHARKOV,
+	@JsonProperty
+	WARSAW,
+	@JsonProperty
+	BERLIN,
+	@JsonProperty
+	ROME
 }

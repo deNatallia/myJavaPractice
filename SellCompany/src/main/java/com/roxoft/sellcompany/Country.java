@@ -11,5 +11,11 @@ public enum Country {
 	@JsonProperty
 	BELARUS,
 	@JsonProperty
-	UKRAINE
+	UKRAINE,
+	@JsonProperty
+	POLAND,
+	@JsonProperty
+	GERMANY,
+	@JsonProperty
+	ITALY
 }

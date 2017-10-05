@@ -34,7 +34,7 @@ public class Pavilion extends Shop{
 
 	@Override	
 	public String toString(){
-		return "Company name: " + getName() + "; ShopType: " + getShopType() + "; Number of staff: " + getStaffNum() + "; Day of new arrival: " + getNewArrivalDate();
+		return "Company name: " + getName() + "; " + "; Number of staff: " + getStaffNum() + "; Day of new arrival: " + getNewArrivalDate();
 	}
 	
 	public int getPlaceNum() {

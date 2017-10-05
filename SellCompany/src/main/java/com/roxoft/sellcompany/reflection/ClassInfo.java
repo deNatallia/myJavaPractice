@@ -1,4 +1,4 @@
-package com.roxsoft.sellcompany.reflection;
+package com.roxoft.sellcompany.reflection;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;

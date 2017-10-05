@@ -124,7 +124,7 @@ public class DomXmlParser {
 					smk.setSquare(takeSquare(el));
 					smk.setStaffNum(takeStaffNum(el));
 					smk.setSectionNum(takeSectionNum(el));
-					smk.setNewArrivalDate(takeDate(el));	
+					smk.setNewArrivalDate((java.sql.Date) takeDate(el));	
 				}
 				if (smk != null){
 					smList.add(smk);
@@ -145,7 +145,7 @@ public class DomXmlParser {
 					osh.setSite(takeSite(el));
 					osh.setStaffNum(takeStaffNum(el));
 					osh.setManagersNum(takeManagersNum(el));
-					osh.setNewArrivalDate(takeDate(el));
+					osh.setNewArrivalDate((java.sql.Date) takeDate(el));
 				}
 				if (osh != null){
 					osList.add(osh);
@@ -165,7 +165,7 @@ public class DomXmlParser {
 					pav.setAddress(takeAddress(el));
 					pav.setStaffNum(takeStaffNum(el));
 					pav.setPlaceNum(takePlaceNum(el));
-					pav.setNewArrivalDate(takeDate(el));
+					pav.setNewArrivalDate((java.sql.Date) takeDate(el));
 				}
 				if (pav != null){
 					pvList.add(pav);
@@ -185,7 +185,7 @@ public class DomXmlParser {
 					ls.setAddress(takeAddress(el));
 					ls.setSquare(takeSquare(el));
 					ls.setLoaderNum(takeLoaderNum(el));
-					ls.setNewArrivalDate(takeDate(el));
+					ls.setNewArrivalDate((java.sql.Date) takeDate(el));
 					ls.setProducers(takeProducers(el));
 				}
 				if (ls != null){

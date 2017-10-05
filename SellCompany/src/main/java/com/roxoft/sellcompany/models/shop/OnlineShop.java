@@ -20,8 +20,7 @@ public class OnlineShop extends Shop{
 	@JsonProperty
 	private int managersNum;
 	
-	public OnlineShop(){
-	}
+	public OnlineShop(){}
 	
 	public OnlineShop(String name, Address address, ShopType shopType, int staffNum, Date newArrivalDate, String site, int managersNum){
 		super(name,address,shopType,staffNum,newArrivalDate);
@@ -57,7 +56,7 @@ public class OnlineShop extends Shop{
 	
 	@Override	
 	public String toString(){
-		return "Company name: " + getName() + "; ShopType: " + getShopType() + "; Site: " + getSite() + "; Number of staff: " + getStaffNum() + "; Day of new arrival: " + getNewArrivalDate();
+		return "Company name: " + getName() + "; " + "; Site: " + getSite() + "; Number of staff: " + getStaffNum() + "; Day of new arrival: " + getNewArrivalDate();
 	}
 	
 	public String getSite() {

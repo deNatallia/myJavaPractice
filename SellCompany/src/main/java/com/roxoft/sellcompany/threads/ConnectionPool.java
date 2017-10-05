@@ -17,7 +17,7 @@ import org.apache.logging.log4j.Logger;
 
 public class ConnectionPool {
 	private final static Logger LOGGER = LogManager.getLogger(ConnectionPool.class);
-	private final static int MAX_CONN = 3;
+	private final static int MAX_CONN = 10;
 	private static ConnectionPool instance;
 	private BlockingQueue<Connection> availableConn = new ArrayBlockingQueue<Connection>(MAX_CONN);
 	private volatile int usingConnNum = 0;
@@ -89,7 +89,7 @@ public class ConnectionPool {
 	}
 	
 	public void returnConnection(Connection c) throws NullPointerException{
-		if (c != null && availableConn.size() < MAX_CONN) {
+		if (c != null) {
 			usingConnNum--;
 	        availableConn.add(c);		
 	    }

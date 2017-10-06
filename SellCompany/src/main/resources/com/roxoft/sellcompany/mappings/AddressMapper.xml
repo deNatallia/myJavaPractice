@@ -60,7 +60,7 @@
 
 	<select id="getAddressById" resultMap="AddressResultMap">
 			SELECT
-				<!-- COUNTRY,CITY, -->STREET,HOUSE_NUM
+				COUNTRY,CITY, STREET,HOUSE_NUM
 			FROM addresses
 			<!-- LEFT JOIN countries AS cntr
 			ON cntr.idCOUNTRIES=adr.COUNTRIES_ID

@@ -20,7 +20,7 @@ public class AddressDAO implements IAddressMapper{
 		int row = -1;
         SqlSession session = sqlSessionFactory.openSession();
         try {
-            row = session.insert("Address.createAddress", address);
+            row = session.insert("com.roxoft.sellcompany.mybatis.AddressMapper.createAddress", address);
         } finally {
             session.commit();
             session.close();

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.roxoft.sellcompany.mybatis.AddressMapper">
+
+	<insert id="createAddress" useGeneratedKeys="true" keyProperty="idAddress">
+			INSERT into addresses (STREET,HOUSE_NUM,COUNTRIES_ID, CITIES_ID)
+			VALUES
+			(
+				#{street},
+				#{houseNum},
+				SELECT idCOUNTRIES from countries WHERE COUNTRY = #{country},
+				SELECT idCITIES from cities WHERE CITY = #{city},
+			)
+	</insert>
+
+	<update id="updateAddress">
+        	UPDATE
+				addresses
+			SET
+				STREET = #{street},
+				HOUSE_NUM = #{houseNum},
+				COUNTRIES_ID =
+				(
+					SELECT
+						idCOUNTRIES from countries
+						WHERE COUNTRY = #{country}
+				),
+				CITIES_ID =
+				(
+					SELECT
+						idCITIES from cities
+						WHERE CITY = #{city}
+				)
+			WHERE idAddress = #{id}
+	</update>
+
+	 <delete id="deleteAddress">
+        	DELETE
+        		from addresses
+        	WHERE
+        		idAddress = #{id}
+    </delete>
+	
+	<select id="getAddressById" resultMap="AddressResultMap" resultType="com.roxoft.sellcompany.Address">
+			SELECT
+				COUNTRY,CITY,STREET,HOUSE_NUM
+			FROM addresses
+			WHERE idAddress = #{id}
+	</select>			
+
+	<resultMap type="com.roxoft.sellcompany.mybatis.AddressMapper" id="AddressResultMap" autoMapping="false">
+		<id column="idAddress" property="id" />
+		<association property="country" column="COUNTRIES_ID" javaType="String" select="selectCountry"/>
+		<association property="city" column="CITIES_ID" javaType="String" select="selectCountry"/>
+		<result column="STREET" property="street" />
+		<result column="HOUSE_NUM" property="houseNum" />
+	</resultMap>
+
+	<select id="selectCountry" resultType="String">
+		SELECT COUNTRY from countries WHERE COUNTRY_ID = #{id}
+	</select>
+
+	<select id="selectCity" resultType="String">
+		SELECT CITY from cities WHERE CITY_ID = #{id}
+	</select>
+
+</mapper>

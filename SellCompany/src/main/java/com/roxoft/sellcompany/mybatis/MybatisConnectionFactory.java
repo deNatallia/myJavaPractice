@@ -14,7 +14,7 @@ public class MybatisConnectionFactory {
     static {
         try {
  
-            String resource = "src/main/resources/com/roxoft/sellcompany/mappings/mybatis.mysql.config.xml";
+            String resource = "com/roxoft/sellcompany/mybatis.mysql.config.xml";
             InputStream is = Resources.getResourceAsStream(resource);
  
             if (sqlSessionFactory == null) {

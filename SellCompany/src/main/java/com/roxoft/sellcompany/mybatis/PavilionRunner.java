@@ -17,7 +17,7 @@ import com.roxoft.sellcompany.models.shop.Supermarket;
 public class PavilionRunner {
 	private final static Logger LOGGER = LogManager.getLogger(PavilionRunner.class);
 	
-	public static void main(String[] args) throws InvalidValueException, ParseException{
+	public static void main(String[] args){
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		
 		SqlSessionFactory sf = MybatisConnectionFactory.getSqlSessionFactory();

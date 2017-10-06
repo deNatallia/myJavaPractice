@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.roxoft.sellcompany.mybatis.PavilionMapper">
+
+	<insert id="createPavilion" useGeneratedKeys="true" keyProperty="ADDRESSES_ID">
+			INSERT into pavilions (NAME,STAFF_NUM,NEW_ARRIVAL_DATE,PLACE_NUM,ADDRESSES_ID)
+			VALUES
+			(
+				#{name},
+				#{staffNum},
+				#{newArrivalDate},
+				#{placeNum},
+				#{}
+			)
+	</insert>
+
+	<update id="updatePavilion">
+        	UPDATE
+				pavilions
+			SET
+				#{name},
+				#{staffNum},
+				#{newArrivalDate},
+				#{placeNum},
+				#{}
+			WHERE idPavilion = #{id}
+	</update>
+
+	 <delete id="deletePavilion">
+        	DELETE
+        		from pavilions
+        	WHERE
+        		idPavilion = #{id}
+    </delete>
+	
+	<select id="getPavilionById" resultMap="PavilionResultMap" resultType="com.roxoft.sellcompany.Pavilion">
+			SELECT
+				NAME,STAFF_NUM,NEW_ARRIVAL_DATE,PLACE_NUM
+			FROM pavilions
+			WHERE idPavilion = #{id}
+	</select>			
+
+	<resultMap type="com.roxoft.sellcompany.mybatis.PavilionMapper" id="PavilionResultMap" autoMapping="false">
+		<id column="idPavilion" property="id" />
+		<result column="NAME" property="name" javaType="String" />
+		<association property="address" column="ADRESSES_ID" javaType="com.roxoft.sellcompany.Address" resultMap="getAddressById"/>
+		<result column="PLACE_NUM" property="placeNum" javaType="Int" />
+		<result column="STAFF_NUM" property="staffNum" javaType="Int" />
+		<result column="NEW_ARRIVAL_DATE" property="NewArrivalDate" javaType="Date" />
+	</resultMap>
+
+</mapper>

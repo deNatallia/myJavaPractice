@@ -5,49 +5,49 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.roxoft.sellcompany.Address;
+import com.roxoft.sellcompany.models.shop.Pavilion;
 
-public class AddressDAO implements IAddressMapper{
-	private final static Logger LOGGER = LogManager.getLogger(AddressDAO.class);
+public class PavilionDAO implements IPavilionMapper{
+	private final static Logger LOGGER = LogManager.getLogger(PavilionDAO.class);
 	private SqlSessionFactory sqlSessionFactory = null;
 	 
-    public AddressDAO(SqlSessionFactory sqlSessionFactory){
+    public PavilionDAO(SqlSessionFactory sqlSessionFactory){
         this.sqlSessionFactory = sqlSessionFactory;
     }
 	
 	@Override
-	public int createAddress(Address address) {
+	public int createPavilion(Pavilion pavilion) {
 		int row = -1;
         SqlSession session = sqlSessionFactory.openSession();
         try {
-            row = session.insert("Address.createAddress", address);
+            row = session.insert("Pavilion.createPavilion", pavilion);
         } finally {
             session.commit();
             session.close();
         }
-        LOGGER.info(address.toString() + " was successfully added to Addresses table");
+        LOGGER.info(pavilion.toString() + " was successfully added to Paviliones table");
         return row;
 	}
 
 	@Override
-	public Address getAddressById(int id) {
-		Address address;
+	public Pavilion getPavilionById(int id) {
+		Pavilion pavilion;
 		SqlSession session = sqlSessionFactory.openSession(); 
         try {
-        	address = (Address) session.selectOne("Address.getAddressById", id);
+        	pavilion = (Pavilion) session.selectOne("Pavilion.getPavilionById", id);
         } finally {
             session.commit();
             session.close();
         }
-        return address;
+        return pavilion;
 	}
 
 	@Override
-	public int updateAddress(Address address) {
+	public int updatePavilion(Pavilion pavilion) {
 		int row = -1;
 		SqlSession session = sqlSessionFactory.openSession(); 
         try {
-        	row = session.update("Address.updateAddress", address);
+        	row = session.update("Pavilion.updatePavilion", pavilion);
         } finally {
             session.commit();
             session.close();
@@ -56,11 +56,11 @@ public class AddressDAO implements IAddressMapper{
 	}
 
 	@Override
-	public int deleteAddress(int id) {
+	public int deletePavilion(int id) {
 		int row = -1;
 		SqlSession session = sqlSessionFactory.openSession(); 
         try {
-        	row = session.update("Address.deleteAddress", id);
+        	row = session.update("Pavilion.deletePavilion", id);
         } finally {
             session.commit();
             session.close();

@@ -10,7 +10,7 @@
 				#{street},
 				#{houseNum},
 				SELECT idCOUNTRIES from countries WHERE COUNTRY = #{country},
-				SELECT idCITIES from cities WHERE CITY = #{city},
+				SELECT idCITIES from cities WHERE CITY = #{city}
 			)
 	</insert>
 
@@ -40,21 +40,14 @@
         		from addresses
         	WHERE
         		idAddress = #{id}
-    </delete>
-	
-	<select id="getAddressById" resultMap="AddressResultMap" resultType="com.roxoft.sellcompany.Address">
-			SELECT
-				COUNTRY,CITY,STREET,HOUSE_NUM
-			FROM addresses
-			WHERE idAddress = #{id}
-	</select>			
+    </delete>		
 
-	<resultMap type="com.roxoft.sellcompany.mybatis.AddressMapper" id="AddressResultMap" autoMapping="false">
+	<resultMap  id="AddressResultMap" type="com.roxoft.sellcompany.Address" autoMapping="false">
 		<id column="idAddress" property="id" />
-		<association property="country" column="COUNTRIES_ID" javaType="String" select="selectCountry"/>
-		<association property="city" column="CITIES_ID" javaType="String" select="selectCountry"/>
-		<result column="STREET" property="street" />
-		<result column="HOUSE_NUM" property="houseNum" />
+		<result column="STREET" property="street" javaType="String" />
+		<result column="HOUSE_NUM" property="houseNum" javaType="Int" />
+		<association property="country" column="COUNTRIES_ID" javaType="String" select="selectCountry" />
+		<association property="city" column="CITIES_ID" javaType="String" select="selectCity" />
 	</resultMap>
 
 	<select id="selectCountry" resultType="String">
@@ -65,4 +58,40 @@
 		SELECT CITY from cities WHERE CITY_ID = #{id}
 	</select>
 
+	<select id="getAddressById" resultMap="AddressResultMap">
+			SELECT
+				<!-- COUNTRY,CITY, -->STREET,HOUSE_NUM
+			FROM addresses
+			<!-- LEFT JOIN countries AS cntr
+			ON cntr.idCOUNTRIES=adr.COUNTRIES_ID
+			LEFT JOIN cities AS c
+			ON c.idCITIES=adr.CITIES_ID -->
+			WHERE idAddress = #{id}
+	</select>	
+	
+	
+	<!-- <resultMap  id="AddressResultMap" type="com.roxoft.sellcompany.Address" autoMapping="false">
+		<id column="idAddress" property="id" />
+		<association property="country" column="COUNTRIES_ID" javaType="String" select="CountryResultMap"/>
+		<association property="city" column="CITIES_ID" javaType="String" select="CityResultMap"/>
+		<result column="STREET" property="street" javaType="String" />
+		<result column="HOUSE_NUM" property="houseNum" javaType="Int" />
+	</resultMap>
+	<select id="selectCountry" resultType="String" resultMap="CountryResultMap">
+		SELECT COUNTRY from countries WHERE COUNTRY_ID = #{id}
+	</select>
+	<select id="selectCity" resultType="String" resultMap="CityResultMap">
+		SELECT CITY from cities
+		
+		WHERE CITY_ID = #{id}
+	</select>
+	
+	<resultMap  id="CountryResultMap" type="String" autoMapping="false">
+		<id column="idCOUNTRIES" property="id" />
+		<result column="COUNTRY" property="country" javaType="String" />
+	</resultMap>
+	<resultMap  id="CityResultMap" type="String" autoMapping="false">
+		<id column="idCITIES" property="id" />
+		<result column="CITY" property="city" javaType="String" />
+	</resultMap> -->
 </mapper>

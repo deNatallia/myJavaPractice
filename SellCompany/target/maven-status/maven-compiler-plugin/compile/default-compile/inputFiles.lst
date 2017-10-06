@@ -4,6 +4,7 @@ c:\Users\natti\workspace\myJavaPractice\SellCompany\src\main\java\com\roxoft\sel
 c:\Users\natti\workspace\myJavaPractice\SellCompany\src\main\java\com\roxoft\sellcompany\xmljson\StoreHouses.java
 c:\Users\natti\workspace\myJavaPractice\SellCompany\src\main\java\com\roxoft\sellcompany\xmljson\DomXmlParser.java
 c:\Users\natti\workspace\myJavaPractice\SellCompany\src\main\java\com\roxoft\sellcompany\DAO\ILogisticStoreDAO.java
+c:\Users\natti\workspace\myJavaPractice\SellCompany\src\main\java\com\roxoft\sellcompany\mybatis\PavilionDAO.java
 c:\Users\natti\workspace\myJavaPractice\SellCompany\src\main\java\com\roxoft\sellcompany\DAO\IGoodDAO.java
 c:\Users\natti\workspace\myJavaPractice\SellCompany\src\main\java\com\roxoft\sellcompany\Services\SupermarketService.java
 c:\Users\natti\workspace\myJavaPractice\SellCompany\src\main\java\com\roxoft\sellcompany\xmljson\SellingCompany.java
@@ -12,9 +13,11 @@ c:\Users\natti\workspace\myJavaPractice\SellCompany\src\main\java\com\roxoft\sel
 c:\Users\natti\workspace\myJavaPractice\SellCompany\src\main\java\com\roxoft\sellcompany\Address.java
 c:\Users\natti\workspace\myJavaPractice\SellCompany\src\main\java\com\roxoft\sellcompany\DAO\IProducerDAO.java
 c:\Users\natti\workspace\myJavaPractice\SellCompany\src\main\java\com\roxoft\sellcompany\threads\ConnectionPool.java
+c:\Users\natti\workspace\myJavaPractice\SellCompany\src\main\java\com\roxoft\sellcompany\mybatis\MybatisConnectionFactory.java
 c:\Users\natti\workspace\myJavaPractice\SellCompany\src\main\java\com\roxoft\sellcompany\models\shop\Supermarket.java
 c:\Users\natti\workspace\myJavaPractice\SellCompany\src\main\java\com\roxoft\sellcompany\models\IClean.java
 c:\Users\natti\workspace\myJavaPractice\SellCompany\src\main\java\com\roxoft\sellcompany\DAO\JDBCGoodDAO.java
+c:\Users\natti\workspace\myJavaPractice\SellCompany\src\main\java\com\roxoft\sellcompany\mybatis\PavilionRunner.java
 c:\Users\natti\workspace\myJavaPractice\SellCompany\src\main\java\com\roxoft\sellcompany\threads\MyDeadlock.java
 c:\Users\natti\workspace\myJavaPractice\SellCompany\src\main\java\com\roxoft\sellcompany\DAO\JDBCPavilionDAO.java
 c:\Users\natti\workspace\myJavaPractice\SellCompany\src\main\java\com\roxoft\sellcompany\threads\LoadingCar.java
@@ -31,10 +34,13 @@ c:\Users\natti\workspace\myJavaPractice\SellCompany\src\main\java\com\roxoft\sel
 c:\Users\natti\workspace\myJavaPractice\SellCompany\src\main\java\com\roxoft\sellcompany\DAO\Runner.java
 c:\Users\natti\workspace\myJavaPractice\SellCompany\src\main\java\com\roxoft\sellcompany\models\shop\OnlineShop.java
 c:\Users\natti\workspace\myJavaPractice\SellCompany\src\main\java\com\roxoft\sellcompany\threads\ConnThread.java
+c:\Users\natti\workspace\myJavaPractice\SellCompany\src\main\java\com\roxoft\sellcompany\mybatis\IPavilionMapper.java
 c:\Users\natti\workspace\myJavaPractice\SellCompany\src\main\java\com\roxoft\sellcompany\models\ShopType.java
 c:\Users\natti\workspace\myJavaPractice\SellCompany\src\main\java\com\roxoft\sellcompany\DAO\JDBCLogisticStoreDAO.java
 c:\Users\natti\workspace\myJavaPractice\SellCompany\src\main\java\com\roxoft\sellcompany\SellCompany.java
+c:\Users\natti\workspace\myJavaPractice\SellCompany\src\main\java\com\roxoft\sellcompany\mybatis\IAddressMapper.java
 c:\Users\natti\workspace\myJavaPractice\SellCompany\src\main\java\com\roxoft\sellcompany\models\ITrans.java
+c:\Users\natti\workspace\myJavaPractice\SellCompany\src\main\java\com\roxoft\sellcompany\mybatis\AddressDAO.java
 c:\Users\natti\workspace\myJavaPractice\SellCompany\src\main\java\com\roxoft\sellcompany\DAO\JDBCFactoryStoreDAO.java
 c:\Users\natti\workspace\myJavaPractice\SellCompany\src\main\java\com\roxoft\sellcompany\models\shop\Pavilion.java
 c:\Users\natti\workspace\myJavaPractice\SellCompany\src\main\java\com\roxoft\sellcompany\models\storehouse\LogisticStore.java

@@ -27,10 +27,9 @@ public class OnlineShopService {
 		return os;
 	}
 	
-	public void updateThisOnlineShop(OnlineShop s,int id){
-		int idAddress = osdao.getIdAddress(id);
-		osdao.updateOnlineShop(s,id);
-		adao.updateAddress(s.getAddress(),idAddress);
+	public void updateThisOnlineShop(OnlineShop s){
+		osdao.updateOnlineShop(s);
+		adao.updateAddress(s.getAddress());
 	}
 	
 	public void deleteThisOnlineShop(int id){

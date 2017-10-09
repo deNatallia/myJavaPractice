@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,42 +13,42 @@ import com.roxoft.sellcompany.InvalidValueException;
 import com.roxoft.sellcompany.models.shop.Supermarket;
 
 public class JDBCSupermarketDAO extends AbstractDAO implements ISupermarketDAO {
-	private final static Logger LOGGER = LogManager.getLogger(JDBCAddressDAO.class);
+	private final static Logger LOGGER = LogManager.getLogger(JDBCSupermarketDAO.class);
 
 	private Connection connection = null;
 	private PreparedStatement ps = null;
 	private ResultSet rs = null;
 	
 	@Override
-	public boolean insertSupermarket(Supermarket supermarket) {
+	public void insertSupermarket(Supermarket supermarket) {
 		String sql = "INSERT into supermarkets (NAME,STAFF_NUM,NEW_ARRIVAL_DATE,SECTION_NUM,SQUARE,ADDRESSES_ID) VALUES (?,?,?,?,?,?)";
 		try {
 			connection = getConpool().getConnection();
-			ps = connection.prepareStatement(sql);
+			ps = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1,supermarket.getName());
 			ps.setInt(2,supermarket.getStaffNum());
 			ps.setDate(3, new java.sql.Date(supermarket.getNewArrivalDate().getTime()));
 			ps.setInt(4,supermarket.getSectionNum());
 			ps.setInt(5,supermarket.getSquare());
-			ps.setInt(6,JDBCAddressDAO.getGeneratedKey());
-			int i = ps.executeUpdate();
-			
-			if (i==1) {
-				LOGGER.info(supermarket.toString() + " was successfully added to Supermarkets table");
-				return true;
+			ps.setInt(6,(supermarket.getAddress()).getId());
+			ps.executeUpdate();
+			rs=ps.getGeneratedKeys();
+			if (rs.next()){
+				supermarket.setId(rs.getInt(1));
 			}
+			LOGGER.info(supermarket.toString() + " was successfully added to Supermarkets table");
 		} catch (SQLException | InterruptedException e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 		finally {
+			closeRSet(rs);
 			closePrStatement(ps);
 			getConpool().returnConnection(connection);
 		}
-		return false;
 	}
 
 	@Override
-	public boolean updateSupermarket(Supermarket supermarket,int id) {
+	public void updateSupermarket(Supermarket supermarket) {
 		String sql = "UPDATE supermarkets SET NAME=?,STAFF_NUM=?,NEW_ARRIVAL_DATE=?,SECTION_NUM=?,SQUARE=? WHERE ID=?";
 		try {
 			connection = getConpool().getConnection();
@@ -57,43 +58,34 @@ public class JDBCSupermarketDAO extends AbstractDAO implements ISupermarketDAO {
 			ps.setDate(3, new java.sql.Date(supermarket.getNewArrivalDate().getTime()));
 			ps.setInt(4,supermarket.getSectionNum());
 			ps.setInt(5,supermarket.getSquare());
-			ps.setInt(6,id);
-			int i = ps.executeUpdate();
-			if (i==1) {
-				LOGGER.info(supermarket.toString() + " was updated at Supermarkets table");
-				return true;
-			}
+			ps.setInt(6,supermarket.getId());
+			ps.executeUpdate();
+			LOGGER.info(supermarket.toString() + " was updated at Supermarkets table");
 		} catch (SQLException | InterruptedException e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 		finally {
 			closePrStatement(ps);
 			getConpool().returnConnection(connection);
 		}
-		return false;
 	}
 
 	@Override
-	public boolean deleteSupermarket(int id) {
+	public void deleteSupermarket(int id) {
 		String sql = "DELETE from supermarkets WHERE id=?";
 		try {
 			connection = getConpool().getConnection();
 			ps = connection.prepareStatement(sql);
 			ps.setInt(1, id);
-			int i = ps.executeUpdate();
-			
-			if (i==1) {
-				LOGGER.info("Supermarket with "+id + " was deleted from Supermarkets table");
-				return true;
-			}
+			ps.executeUpdate();
+			LOGGER.info("Supermarket with id "+id + " was deleted from Supermarkets table");
 		} catch (SQLException | InterruptedException e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 		finally {
 			closePrStatement(ps);
 			getConpool().returnConnection(connection);
 		}
-		return false;
 	}
 
 	@Override
@@ -112,7 +104,7 @@ public class JDBCSupermarketDAO extends AbstractDAO implements ISupermarketDAO {
 	        sm.setSectionNum(rs.getInt("SECTION_NUM"));
 	        sm.setSquare(rs.getInt("SQUARE"));
 	    } catch (SQLException | InterruptedException | InvalidValueException e) {
-			LOGGER.error(e.getCause());
+	    	LOGGER.error(e.getMessage());
 	    }
 		finally {
 			closeRSet(rs);
@@ -133,7 +125,7 @@ public class JDBCSupermarketDAO extends AbstractDAO implements ISupermarketDAO {
 	        rs.next();
 	        addressId = rs.getInt("ADDRESSES_ID");
 	    } catch (SQLException | InterruptedException e) {
-			LOGGER.error(e.getCause());
+	    	LOGGER.error(e.getMessage());
 	    }
 		finally {
 			closeRSet(rs);

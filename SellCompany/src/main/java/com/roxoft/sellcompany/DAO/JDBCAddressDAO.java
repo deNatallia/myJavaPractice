@@ -19,86 +19,72 @@ public class JDBCAddressDAO extends AbstractDAO implements IAddressDAO {
 	private Connection connection = null;
 	private PreparedStatement ps = null;
 	private ResultSet rs = null;
-	private volatile static int generatedKey;
 	
 	@Override
-	public boolean insertAddress(Address address) {
-		String sql = "INSERT into addresses (STREET,HOUSE_NUM,CITIES_ID,COUNTRIES_ID) VALUES (?,?,(SELECT idCITIES from cities WHERE CITY=?),(SELECT idCOUNTRIES from countries WHERE COUNTRY=?))";
+	public void insertAddress(Address address) {
+		String sql = "INSERT into addresses (STREET,HOUSE_NUM,CITIES_ID,COUNTRIES_ID) VALUES (?,?,?,?)";
 		try {
 			connection = getConpool().getConnection();
 			ps = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1,address.getStreet());
 			ps.setInt(2,address.getHouseNum());
-			ps.setString(3, address.getCity().toString());
-			ps.setString(4,address.getCountry().toString());
-			int i = ps.executeUpdate();
-			if (i==1) {
-				rs = ps.getGeneratedKeys();
-			    if (rs.next()){
-			    	this.setGeneratedKey(rs.getInt(1));
-			    }
-				LOGGER.info(address.toString() + " was successfully added to Addresses table");
-				return true;
+			ps.setInt(3,address.getCity().getId());
+			ps.setInt(4,address.getCountry().getId());
+			ps.executeUpdate();
+			rs = ps.getGeneratedKeys();
+			if (rs.next()){
+			   	address.setId(rs.getInt(1));
 			}
+			LOGGER.info("ID" + address.getId() +" "+ address.toString() + " was successfully added to Addresses table");
 		} catch (SQLException | InterruptedException e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 		finally {
 			closeRSet(rs);
 			closePrStatement(ps);
 			getConpool().returnConnection(connection);
 		}
-		return false;
 	}
 	
 	@Override
-	public boolean updateAddress(Address address,int id) {
-		String sql = "UPDATE addresses SET STREET=?,HOUSE_NUM=?,COUNTRIES_ID=(SELECT idCOUNTRIES from countries WHERE COUNTRY=?),CITIES_ID=(SELECT idCITIES from cities WHERE CITY=?) WHERE idAddress=?";
+	public void updateAddress(Address address) {
+		String sql = "UPDATE addresses SET STREET=?,HOUSE_NUM=?,COUNTRIES_ID=?,CITIES_ID=? WHERE idAddress=?";
 		try {
 			connection = getConpool().getConnection();
 			ps = connection.prepareStatement(sql);
 			ps.setString(1,address.getStreet());
 			ps.setInt(2,address.getHouseNum());
-			ps.setString(3,address.getCountry().toString());
-			ps.setString(4,address.getCity().toString());
-			ps.setInt(5,id);
-			int i = ps.executeUpdate();
-			if (i==1) {
-				LOGGER.info(address.toString() + " was updated at Addresses table");
-				return true;
-			}
+			ps.setInt(3,address.getCountry().getId());
+			ps.setInt(4,address.getCity().getId());
+			ps.setInt(5,address.getId());
+			ps.executeUpdate();
+			LOGGER.info(address.toString() + " was updated at Addresses table");
 		} catch (SQLException | InterruptedException e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 		finally {
 			closePrStatement(ps);
 			getConpool().returnConnection(connection);
 		}
-		return false;
 		
 	}
 
 	@Override
-	public boolean deleteAddress(int id) {
+	public void deleteAddress(int id) {
 		String sql = "DELETE from addresses WHERE idAddress=?";
 		try {
 			connection = getConpool().getConnection();
 			ps = connection.prepareStatement(sql);
 			ps.setInt(1, id);
-			int i = ps.executeUpdate();
-			
-			if (i==1) {
-				LOGGER.info("Address with id="+ id +" was deleted from Addresses table");
-				return true;
-			}
+			ps.executeUpdate();
+			LOGGER.info("Address with id="+ id +" was deleted from Addresses table");
 		} catch (SQLException | InterruptedException e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 		finally {
 			closePrStatement(ps);
 			getConpool().returnConnection(connection);
 		}
-		return false;
 	}
 
 	@Override
@@ -111,12 +97,13 @@ public class JDBCAddressDAO extends AbstractDAO implements IAddressDAO {
 	        ps.setInt(1, id);
 	        rs = ps.executeQuery();
 	        rs.next();
+	        //a.setId(rs.getInt("idAddress"));
 	        a.setCountry(Country.valueOf(rs.getString("COUNTRY")));
 	        a.setCity(City.valueOf(rs.getString("CITY")));
 	        a.setStreet(rs.getString("STREET"));
 	        a.setHouseNum(rs.getInt("HOUSE_NUM"));
 	    } catch (SQLException | InterruptedException e) {
-			LOGGER.error(e.getCause());
+			LOGGER.error(e.getMessage());
 	    }
 		finally {
 			closeRSet(rs);
@@ -124,15 +111,5 @@ public class JDBCAddressDAO extends AbstractDAO implements IAddressDAO {
 			getConpool().returnConnection(connection);
 		}
 		return a;
-		
 	}
-
-	public static int getGeneratedKey() {
-		return generatedKey;
-	}
-
-	public void setGeneratedKey(int generatedKey) {
-		JDBCAddressDAO.generatedKey = generatedKey;
-	}
-
 }

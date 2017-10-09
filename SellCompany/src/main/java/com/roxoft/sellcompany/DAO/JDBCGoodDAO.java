@@ -18,81 +18,64 @@ public class JDBCGoodDAO extends AbstractDAO implements IGoodDAO {
 	private static int generatedKeys;
 	
 	@Override
-	public boolean insertGood(String good) {
+	public void insertGood(String good) {
 		String sql = "INSERT into goods (GOOD_NAME,AMOUNT) VALUES (?,?)";
 		try {
 			connection = getConpool().getConnection();
 			ps = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
-			int i=0;
-				ps.setString(1,good);
-				ps.setInt(2,5);
-				i = ps.executeUpdate();
-				rs=ps.getGeneratedKeys();
-				if (i==0) {
-					return false;
-				}
-			
-				if (rs.next()){
-				    this.setGeneratedKeys(rs.getInt(1));
-				}    
-			
+			ps.setString(1,good);
+			ps.setInt(2,5);
+			ps.executeUpdate();
+			rs=ps.getGeneratedKeys();
+			if (rs.next()){
+			    this.setGeneratedKeys(rs.getInt(1));
+			}    
 		} catch (SQLException | InterruptedException e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 		finally {
 			closeRSet(rs);
 			closePrStatement(ps);
 			getConpool().returnConnection(connection);
 		}
-		LOGGER.info(good + " was successfully added to Goods table");
-		return true;	
+		LOGGER.info(good + " was successfully added to Goods table");	
 	}
 
 	@Override
-	public boolean updateGood(String good,int id) {
+	public void updateGood(String good, int id) {
 		String sql = "UPDATE goods SET GOOD_NAME=? WHERE ID=?";
 		try {
 			connection = getConpool().getConnection();
 			ps = connection.prepareStatement(sql);
 			ps.setString(1,good);
 			ps.setInt(2,id);
-			int i = ps.executeUpdate();
-			if (i==1) {
-				LOGGER.info(good + " was updated at Goods table");
-				return true;
-			}
+			ps.executeUpdate();
+			LOGGER.info(good + " was updated at Goods table");
 		} catch (SQLException | InterruptedException e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 		finally {
 			closePrStatement(ps);
 			getConpool().returnConnection(connection);
 		}
-		return false;
-		
 	}
 
 	@Override
-	public boolean deleteGood(int id) {
+	public void deleteGood(int id) {
 		String sql = "DELETE from goods WHERE id=?";
 		try {
 			connection = getConpool().getConnection();
 			ps = connection.prepareStatement(sql);
 			ps.setInt(1, id);
-			int i = ps.executeUpdate();
-			
-			if (i==1) {
-				LOGGER.info("good with id="+id + " was deleted from Goods table");
-				return true;
-			}
+			ps.executeUpdate();
+			LOGGER.info("good with id="+id + " was deleted from Goods table");
 		} catch (SQLException | InterruptedException e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 		finally {
 			closePrStatement(ps);
 			getConpool().returnConnection(connection);
 		}
-		return false;
 	}
 
 	@Override
@@ -107,7 +90,7 @@ public class JDBCGoodDAO extends AbstractDAO implements IGoodDAO {
 	        rs.next();
 	        good = rs.getString("GOOD_NAME");
 	    } catch (SQLException | InterruptedException e) {
-			LOGGER.error(e.getCause());
+			LOGGER.error(e.getMessage());
 	    }
 		finally {
 			closeRSet(rs);

@@ -16,6 +16,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("sellCompany")
 public abstract class SellCompany {
 	@JsonProperty
+	private int id;
+	@JsonProperty
 	private String name;
 	@JsonProperty
 	private Address address;
@@ -25,6 +27,16 @@ public abstract class SellCompany {
 	public SellCompany(String name, Address address){
 		this.name=name;
 		this.address=address;
+	}
+
+	public int getId() {
+		return id;
+	}
+	
+	@XmlElement
+	@JsonSetter
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public Address getAddress() {

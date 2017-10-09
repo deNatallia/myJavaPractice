@@ -13,15 +13,14 @@ import com.roxoft.sellcompany.InvalidValueException;
 import com.roxoft.sellcompany.models.storehouse.FactoryStore;
 
 public class JDBCFactoryStoreDAO extends AbstractDAO implements IFactoryStoreDAO {
-	private final static Logger LOGGER = LogManager.getLogger(JDBCAddressDAO.class);
+	private final static Logger LOGGER = LogManager.getLogger(JDBCFactoryStoreDAO.class);
 
 	private Connection connection = null;
 	private PreparedStatement ps = null;
 	private ResultSet rs = null;
-	private static int generatedKeys;
 	
 	@Override
-	public boolean insertFactoryStore(FactoryStore factorystore) {
+	public void insertFactoryStore(FactoryStore factorystore) {
 		String sql = "INSERT into FactoryStores (NAME,LOADER_NUM,SQUARE,ADDRESSES_ID) VALUES (?,?,?,?)";
 		try {
 			connection = getConpool().getConnection();
@@ -29,29 +28,25 @@ public class JDBCFactoryStoreDAO extends AbstractDAO implements IFactoryStoreDAO
 			ps.setString(1,factorystore.getName());
 			ps.setInt(2,factorystore.getLoaderNum());
 			ps.setInt(3,factorystore.getSquare());
-			ps.setInt(4, JDBCAddressDAO.getGeneratedKey());
-			int i = ps.executeUpdate();
+			ps.setInt(4,(factorystore.getAddress()).getId());
+			ps.executeUpdate();
 			rs=ps.getGeneratedKeys();
-			if (i==1) {
-				if (rs.next()){
-				    this.setGeneratedKeys(rs.getInt(1));
-				} 
+			if (rs.next()){
+				factorystore.setId(rs.getInt(1));
 				LOGGER.info(factorystore.toString() + " was successfully added to FactoryStores table");
-				return true;
 			}
 		} catch (SQLException | InterruptedException e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 		finally {
 			closeRSet(rs);
 			closePrStatement(ps);
 			getConpool().returnConnection(connection);
 		}
-		return false;
 	}
 
 	@Override
-	public boolean updateFactoryStore(FactoryStore factorystore, int id) {
+	public void updateFactoryStore(FactoryStore factorystore) {
 		String sql = "UPDATE factorystores SET NAME=?,LOADER_NUM=?,SQUARE=? WHERE ID=?";
 		try {
 			connection = getConpool().getConnection();
@@ -59,43 +54,34 @@ public class JDBCFactoryStoreDAO extends AbstractDAO implements IFactoryStoreDAO
 			ps.setString(1,factorystore.getName());
 			ps.setInt(2,factorystore.getLoaderNum());
 			ps.setInt(3,factorystore.getSquare());
-			ps.setInt(4,id);
-			int i = ps.executeUpdate();
-			if (i==1) {
-				LOGGER.info(factorystore.toString() + " was updated FactoryStores table");
-				return true;
-			}
+			ps.setInt(4,factorystore.getId());
+			ps.executeUpdate();
+			LOGGER.info(factorystore.toString() + " was updated FactoryStores table");
 		} catch (SQLException | InterruptedException e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 		finally {
 			closePrStatement(ps);
 			getConpool().returnConnection(connection);
 		}
-		return false;
 	}
 
 	@Override
-	public boolean deleteFactoryStore(int id) {
+	public void deleteFactoryStore(int id) {
 		String sql = "DELETE from factorystores WHERE id=?";
 		try {
 			connection = getConpool().getConnection();
 			ps = connection.prepareStatement(sql);
 			ps.setInt(1, id);
-			int i = ps.executeUpdate();
-			
-			if (i==1) {
-				LOGGER.info("Factorystore with " +id+ " was deleted from FactoryStores table");
-				return true;
-			}
+			ps.executeUpdate();
+			LOGGER.info("Factorystore with " +id+ " was deleted from FactoryStores table");
 		} catch (SQLException | InterruptedException e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 		finally {
 			closePrStatement(ps);
 			getConpool().returnConnection(connection);
 		}
-		return false;
 	}
 
 	@Override
@@ -142,13 +128,4 @@ public class JDBCFactoryStoreDAO extends AbstractDAO implements IFactoryStoreDAO
 		}
 		return addressId;
 	}
-
-	public static int getGeneratedKeys() {
-		return generatedKeys;
-	}
-
-	public static void setGeneratedKeys(int generatedKeys) {
-		JDBCFactoryStoreDAO.generatedKeys = generatedKeys;
-	}
-
 }

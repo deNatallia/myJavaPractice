@@ -9,13 +9,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @XmlEnum(String.class)
 public enum Country {
 	@JsonProperty
-	BELARUS,
+	BELARUS(1),
 	@JsonProperty
-	UKRAINE,
+	UKRAINE(2),
 	@JsonProperty
-	POLAND,
+	POLAND(3),
 	@JsonProperty
-	GERMANY,
+	GERMANY(4),
 	@JsonProperty
-	ITALY
+	ITALY(5);
+	
+    private int id;
+	
+	Country(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
 }

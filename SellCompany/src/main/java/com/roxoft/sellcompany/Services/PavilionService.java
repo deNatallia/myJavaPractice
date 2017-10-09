@@ -27,10 +27,10 @@ public class PavilionService {
 		return pv;
 	}
 	
-	public void updateThisPavilion(Pavilion pv,int id){
-		int idAddress = pvdao.getIdAddress(id);
-		pvdao.updatePavilion(pv,id);
-		adao.updateAddress(pv.getAddress(),idAddress);
+	public void updateThisPavilion(Pavilion pv){
+		int idAddress = pv.getId();
+		pvdao.updatePavilion(pv);
+		adao.updateAddress(pv.getAddress());
 	}
 	public void deleteThisPavilion(int id){
 		int idAddress = pvdao.getIdAddress(id);

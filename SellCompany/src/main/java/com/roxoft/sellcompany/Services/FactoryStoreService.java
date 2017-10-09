@@ -28,13 +28,13 @@ public class FactoryStoreService {
 		fgdao.setConpool(conpool);
 	}
 	
-	public void addFactoryStore(FactoryStore l){		
-		adao.insertAddress(l.getAddress());
-		fdao.insertFactoryStore(l);
+	public void addFactoryStore(FactoryStore f){		
+		adao.insertAddress(f.getAddress());
+		fdao.insertFactoryStore(f);
 		
-		for (String Good:l.getGoods()){
+		for (String Good:f.getGoods()){
 			gdao.insertGood(Good);
-			fgdao.insertFactoryHasGoods(JDBCGoodDAO.getGeneratedKeys(), JDBCFactoryStoreDAO.getGeneratedKeys());
+			fgdao.insertFactoryHasGoods(JDBCGoodDAO.getGeneratedKeys(), f.getId());
 		}
 	}
 	
@@ -56,20 +56,17 @@ public class FactoryStoreService {
 		return fs;
 	}
 	
-	public void updateThisFactoryStore(FactoryStore l,int id){
-		System.out.println(fdao.getIdAddress(id));
-		adao.updateAddress(l.getAddress(),fdao.getIdAddress(id));
-		ArrayList<Integer> allGoodsId = fgdao.getAllGoodsId(id);
-		System.out.println(allGoodsId.toString());
+	public void updateThisFactoryStore(FactoryStore f){
+		adao.updateAddress(f.getAddress());
+		ArrayList<Integer> allGoodsId = fgdao.getAllGoodsId(f.getId());
 		int i = 0;
 		while (i < allGoodsId.size()-1){
-			for (String Good:l.getGoods()){
-				System.out.println(Good + i);
+			for (String Good:f.getGoods()){
 				gdao.updateGood(Good, allGoodsId.get(i));
 				i++;
 			}
 		}
-		fdao.updateFactoryStore(l,id);
+		fdao.updateFactoryStore(f);
 	}
 	public void deleteThisFactoryStore(int id){
 		int idAddress = fdao.getIdAddress(id);

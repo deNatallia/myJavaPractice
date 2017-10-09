@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 
 public class Address {
 	@JsonProperty
+	private int id;	
+	@JsonProperty
 	private Country country;
 	@JsonProperty
 	private City city;
@@ -15,6 +17,16 @@ public class Address {
 	@JsonProperty
 	private int houseNum;
 	
+	public int getId() {
+		return id;
+	}
+	
+	@XmlElement
+	@JsonSetter
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public City getCity() {
 		return city;
 	}

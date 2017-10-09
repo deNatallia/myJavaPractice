@@ -27,11 +27,11 @@ public class SupermarketService {
 		return sm;
 	}
 	
-	public void updateThisSupermarket(Supermarket s,int id){
-		int idAddress = smdao.getIdAddress(id);
-		smdao.updateSupermarket(s,id);
-		adao.updateAddress(s.getAddress(),idAddress);
+	public void updateThisSupermarket(Supermarket s){
+		smdao.updateSupermarket(s);
+		adao.updateAddress(s.getAddress());
 	}
+	
 	public void deleteThisSupermarket(int id){
 		int idAddress = smdao.getIdAddress(id);
 		smdao.deleteSupermarket(id);

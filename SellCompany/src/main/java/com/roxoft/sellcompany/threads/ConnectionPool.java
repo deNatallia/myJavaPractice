@@ -25,17 +25,17 @@ public class ConnectionPool {
 	private String host;
 	private String user;
 	private String password;
+	private Properties prop;
 	
-	public Properties initProperties(){
-		Properties prop = new Properties();
+	private ConnectionPool(){
+		prop = new Properties();
 		try {
 			InputStream ist = new FileInputStream("src/main/resources/com/roxoft/sellcompany/env.properties");
 			prop.load(ist);
 		}
-		catch (Exception ie) {
-			LOGGER.error("file not found");
+		catch (Exception e) {
+			LOGGER.error("file not found", e.getMessage());
 		}
-		return prop;
 	}
 	
 	public static ConnectionPool getInstance(){
@@ -53,7 +53,6 @@ public class ConnectionPool {
 	}
 	
 	public Connection getConnection() throws InterruptedException{
-		Properties prop = initProperties();
 		driver = prop.getProperty("jdbc.driver");
 		host = prop.getProperty("jdbc.host");
 		user = prop.getProperty("jdbc.user");

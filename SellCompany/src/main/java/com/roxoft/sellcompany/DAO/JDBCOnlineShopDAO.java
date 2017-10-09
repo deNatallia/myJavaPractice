@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,42 +12,42 @@ import org.apache.logging.log4j.Logger;
 import com.roxoft.sellcompany.models.shop.OnlineShop;
 
 public class JDBCOnlineShopDAO extends AbstractDAO implements IOnlineShopDAO {
-	private final static Logger LOGGER = LogManager.getLogger(JDBCAddressDAO.class);
+	private final static Logger LOGGER = LogManager.getLogger(JDBCOnlineShopDAO.class);
 
 	private Connection connection = null;
 	private PreparedStatement ps = null;
 	private ResultSet rs = null;
 	
 	@Override
-	public boolean insertOnlineShop(OnlineShop onlineshop) {
+	public void insertOnlineShop(OnlineShop onlineshop) {
 		String sql = "INSERT into onlineshops (NAME,STAFF_NUM,NEW_ARRIVAL_DATE,SITE,MANAGERS_NUM,ADDRESSES_ID) VALUES (?,?,?,?,?,?)";
 		try {
 			connection = getConpool().getConnection();
-			ps = connection.prepareStatement(sql);
+			ps = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1,onlineshop.getName());
 			ps.setInt(2,onlineshop.getStaffNum());
 			ps.setDate(3, new java.sql.Date(onlineshop.getNewArrivalDate().getTime()));
 			ps.setString(4,onlineshop.getSite());
 			ps.setInt(5,onlineshop.getManagersNum());
-			ps.setInt(6,JDBCAddressDAO.getGeneratedKey());
-			int i = ps.executeUpdate();
-			
-			if (i==1) {
-				LOGGER.info(onlineshop.toString() + " was successfully added to Onlineshops table");
-				return true;
+			ps.setInt(6,(onlineshop.getAddress()).getId());
+			ps.executeUpdate();
+			rs=ps.getGeneratedKeys();
+			if (rs.next()){
+			   	onlineshop.setId(rs.getInt(1));
 			}
+			LOGGER.info(onlineshop.toString() + " was successfully added to Onlineshops table");
 		} catch (SQLException | InterruptedException e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 		finally {
+			closeRSet(rs);
 			closePrStatement(ps);
 			getConpool().returnConnection(connection);
 		}
-		return false;
 	}
 
 	@Override
-	public boolean updateOnlineShop(OnlineShop onlineshop,int id) {
+	public void updateOnlineShop(OnlineShop onlineshop) {
 		String sql = "UPDATE onlineshops SET NAME=?,STAFF_NUM=?,NEW_ARRIVAL_DATE=?,SITE=?,MANAGERS_NUM=? WHERE ID=?";
 		try {
 			connection = getConpool().getConnection();
@@ -56,43 +57,34 @@ public class JDBCOnlineShopDAO extends AbstractDAO implements IOnlineShopDAO {
 			ps.setDate(3, new java.sql.Date(onlineshop.getNewArrivalDate().getTime()));
 			ps.setString(4,onlineshop.getSite());
 			ps.setInt(5,onlineshop.getManagersNum());
-			ps.setInt(6,id);
-			int i = ps.executeUpdate();
-			if (i==1) {
-				LOGGER.info(onlineshop.toString() + " was updated at Onlineshops table");
-				return true;
-			}
+			ps.setInt(6,onlineshop.getId());
+			ps.executeUpdate();
+			LOGGER.info(onlineshop.toString() + " was updated at Onlineshops table");
 		} catch (SQLException | InterruptedException e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 		finally {
 			closePrStatement(ps);
 			getConpool().returnConnection(connection);
 		}
-		return false;
 	}
 
 	@Override
-	public boolean deleteOnlineShop(int id) {
+	public void deleteOnlineShop(int id) {
 		String sql = "DELETE from onlineshops WHERE id=?";
 		try {
 			connection = getConpool().getConnection();
 			ps = connection.prepareStatement(sql);
 			ps.setInt(1, id);
-			int i = ps.executeUpdate();
-			
-			if (i==1) {
-				LOGGER.info("Onlineshop with " + id + " was deleted from Onlineshops table");
-				return true;
-			}
+			ps.executeUpdate();
+			LOGGER.info("Onlineshop with " + id + " was deleted from Onlineshops table");
 		} catch (SQLException | InterruptedException e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 		finally {
 			closePrStatement(ps);
 			getConpool().returnConnection(connection);
 		}
-		return false;
 	}
 
 	@Override
@@ -110,7 +102,7 @@ public class JDBCOnlineShopDAO extends AbstractDAO implements IOnlineShopDAO {
 	        os.setNewArrivalDate(rs.getDate("NEW_ARRIVAL_DATE"));
 	        os.setManagersNum(rs.getInt("MANAGERS_NUM"));
 	    } catch (SQLException | InterruptedException e) {
-			LOGGER.error(e.getCause());
+	    	LOGGER.error(e.getMessage());
 	    }
 		finally {
 			closeRSet(rs);
@@ -131,7 +123,7 @@ public class JDBCOnlineShopDAO extends AbstractDAO implements IOnlineShopDAO {
 	        rs.next();
 	        addressId = rs.getInt("ADDRESSES_ID");
 	    } catch (SQLException | InterruptedException e) {
-			LOGGER.error(e.getCause());
+	    	LOGGER.error(e.getMessage());
 	    }
 		finally {
 			closeRSet(rs);

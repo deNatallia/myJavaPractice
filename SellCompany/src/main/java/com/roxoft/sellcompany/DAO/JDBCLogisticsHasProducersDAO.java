@@ -9,61 +9,49 @@ import java.util.ArrayList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.roxoft.sellcompany.InvalidValueException;
-import com.roxoft.sellcompany.models.storehouse.LogisticStore;
-
 public class JDBCLogisticsHasProducersDAO extends AbstractDAO implements ILogisticHasProducersDAO {
-	private final static Logger LOGGER = LogManager.getLogger(JDBCAddressDAO.class);
+	private final static Logger LOGGER = LogManager.getLogger(JDBCLogisticsHasProducersDAO.class);
 
 	private Connection connection = null;
 	private PreparedStatement ps = null;
 	private ResultSet rs = null;
+	
 	@Override
-	public boolean insertLogisticHasProducers(int idProducer, int idLogistics) {
+	public void insertLogisticHasProducers(int idProducer, int idLogistics) {
 		String sql = "INSERT into logisticstores_has_producers (LOGISTICSTORES_ID,PRODUCERS_ID) VALUES (?,?)";
 			try {
 				connection = getConpool().getConnection();
 				ps = connection.prepareStatement(sql);
-				int i=0;
 				ps.setInt(1,idLogistics);
 				ps.setInt(2,idProducer);
-				i = ps.executeUpdate();
-				if (i==0) {
-					return false;
-				}				
+				ps.executeUpdate();			
 			} catch (SQLException | InterruptedException e) {
-				e.printStackTrace();
+				LOGGER.error(e.getMessage());
 			}
 			finally {
 				closePrStatement(ps);
 				getConpool().returnConnection(connection);
 			}
 			LOGGER.info("idProducer " + idProducer + " and "+ "idLogisticStore " + idLogistics +" was successfully added to Producers table");
-			return true;	
 	}
 	
 	@Override
-	public boolean updateLogisticHasProducers(int idProducer, int idLogistics) {
+	public void updateLogisticHasProducers(int idProducer, int idLogistics) {
 		String sql = "UPDATE logisticstores_has_producers SET PRODUCERS_ID=? WHERE LOGISTICSTORES_ID=?";
 		try {
 			connection = getConpool().getConnection();
 			ps = connection.prepareStatement(sql);
-			int i=0;
 			ps.setInt(1,idProducer);
 			ps.setInt(2,idLogistics);
-			i = ps.executeUpdate();
-			if (i==0) {
-				return false;
-			}				
+			ps.executeUpdate();			
 		} catch (SQLException | InterruptedException e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 		finally {
 			closePrStatement(ps);
 			getConpool().returnConnection(connection);
 		}
-		LOGGER.info("idProducer " + idProducer + " at "+ "idLogisticStore " + idLogistics +" was successfully updated");
-		return true;	
+		LOGGER.info("idProducer " + idProducer + " at "+ "idLogisticStore " + idLogistics +" was successfully updated");	
 	}
 
 	@Override
@@ -79,7 +67,7 @@ public class JDBCLogisticsHasProducersDAO extends AbstractDAO implements ILogist
 	        	allProducersId.add(rs.getInt(1));
 	        }   
 	    } catch (SQLException | InterruptedException e) {
-			LOGGER.error(e.getCause());
+			LOGGER.error(e.getMessage());
 	    }
 		finally {
 			closeRSet(rs);

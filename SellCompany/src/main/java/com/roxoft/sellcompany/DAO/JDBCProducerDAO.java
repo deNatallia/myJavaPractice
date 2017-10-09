@@ -18,26 +18,20 @@ public class JDBCProducerDAO extends AbstractDAO implements IProducerDAO {
 	private volatile static int generatedKeys;
 	
 	@Override
-	public boolean insertProducer(String producer) {
+	public void insertProducer(String producer) {
 		String sql = "INSERT into producers (PRODUCER_NAME,ORDERS_NUM) VALUES (?,?)";
 		try {
 			connection = getConpool().getConnection();
 			ps = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
-			int i=0;
-				ps.setString(1,producer);
-				ps.setInt(2,5);
-				i = ps.executeUpdate();
-				rs=ps.getGeneratedKeys();
-				if (i==0) {
-					return false;
-				}
-			
-				if (rs.next()){
-				    this.setGeneratedKeys(rs.getInt(1));
-				}    
-			
+			ps.setString(1,producer);
+			ps.setInt(2,5);
+			ps.executeUpdate();
+			rs=ps.getGeneratedKeys();
+			if (rs.next()){
+				this.setGeneratedKeys(rs.getInt(1));
+			}    		
 		} catch (SQLException | InterruptedException e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 		finally {
 			closeRSet(rs);
@@ -45,54 +39,43 @@ public class JDBCProducerDAO extends AbstractDAO implements IProducerDAO {
 			getConpool().returnConnection(connection);
 		}
 		LOGGER.info(producer + " was successfully added to Producers table");
-		return true;	
 	}
 
 	@Override
-	public boolean updateProducer(String producer,int id) {
+	public void updateProducer(String producer, int id) {
 		String sql = "UPDATE producers SET PRODUCER_NAME=? WHERE ID=?";
 		try {
 			connection = getConpool().getConnection();
 			ps = connection.prepareStatement(sql);
 			ps.setString(1,producer);
 			ps.setInt(2,id);
-			int i = ps.executeUpdate();
-			if (i==1) {
-				LOGGER.info(producer + " was updated in Producers table");
-				return true;
-			}
+			ps.executeUpdate();
+			LOGGER.info(producer + " was updated in Producers table");
 		} catch (SQLException | InterruptedException e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 		finally {
 			closePrStatement(ps);
 			getConpool().returnConnection(connection);
-		}
-		return false;
-		
+		}		
 	}
 
 	@Override
-	public boolean deleteProducer(int id) {
+	public void deleteProducer(int id) {
 		String sql = "DELETE from producers WHERE id=?";
 		try {
 			connection = getConpool().getConnection();
 			ps = connection.prepareStatement(sql);
 			ps.setInt(1, id);
-			int i = ps.executeUpdate();
-			
-			if (i==1) {
-				LOGGER.info("producer with id= " + id + " was deleted from Producers table");
-				return true;
-			}
+			ps.executeUpdate();
+			LOGGER.info("producer with id= " + id + " was deleted from Producers table");
 		} catch (SQLException | InterruptedException e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 		finally {
 			closePrStatement(ps);
 			getConpool().returnConnection(connection);
 		}
-		return false;
 	}
 
 	@Override
@@ -107,15 +90,14 @@ public class JDBCProducerDAO extends AbstractDAO implements IProducerDAO {
 	        rs.next();
 	        producer = rs.getString("PRODUCER_NAME");
 	    } catch (SQLException | InterruptedException e) {
-			LOGGER.error(e.getCause());
+	    	LOGGER.error(e.getMessage());
 	    }
 		finally {
 			closeRSet(rs);
 			closePrStatement(ps);
 			getConpool().returnConnection(connection);
 		}
-		return producer;
-		
+		return producer;	
 	}
 
 	public static int getGeneratedKeys() {

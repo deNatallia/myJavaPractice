@@ -33,7 +33,7 @@ public class LogisticStoreService {
 		
 		for (String producer:l.getProducers()){
 			pdao.insertProducer(producer);
-			lpdao.insertLogisticHasProducers(JDBCProducerDAO.getGeneratedKeys(), JDBCLogisticStoreDAO.getGeneratedKeys());
+			lpdao.insertLogisticHasProducers(JDBCProducerDAO.getGeneratedKeys(), l.getId());
 		}
 	}
 	
@@ -49,9 +49,9 @@ public class LogisticStoreService {
 		return ls;
 	}
 	
-	public void updateThisLogisticStore(LogisticStore l,int id){
-		adao.updateAddress(l.getAddress(),ldao.getIdAddress(id));
-		ArrayList<Integer> allProducersId = lpdao.getAllProducersId(id);
+	public void updateThisLogisticStore(LogisticStore l){
+		adao.updateAddress(l.getAddress());
+		ArrayList<Integer> allProducersId = lpdao.getAllProducersId(l.getId());
 		int i = 0;
 		while (i < allProducersId.size()-1){
 			for (String producer:l.getProducers()){
@@ -59,7 +59,7 @@ public class LogisticStoreService {
 				i++;
 			}
 		}
-		ldao.updateLogisticStore(l,id);
+		ldao.updateLogisticStore(l);
 	}
 	
 	public void deleteThisLogisticStore(int id){

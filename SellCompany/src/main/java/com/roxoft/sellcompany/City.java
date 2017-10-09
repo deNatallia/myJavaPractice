@@ -9,27 +9,38 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @XmlEnum(String.class)
 public enum City {
 	@JsonProperty
-	MINSK,
+	MINSK(1),
 	@JsonProperty
-	BREST,
+	KIEV(2),
 	@JsonProperty
-	GRODNO,
+	ODESSA(3),
 	@JsonProperty
-	GOMEL,
+	KHARKOV(4),
 	@JsonProperty
-	MOGILEV,
+	WARSAW(5),
 	@JsonProperty
-	KIEV,
+	BERLIN(6),
 	@JsonProperty
-	LVIV,
+	ROME(7),
 	@JsonProperty
-	ODESSA,
+	BREST(8),
 	@JsonProperty
-	KHARKOV,
+	GRODNO(9),
 	@JsonProperty
-	WARSAW,
+	GOMEL(10),
 	@JsonProperty
-	BERLIN,
+	MOGILEV(11),
 	@JsonProperty
-	ROME
+	LVIV(12);
+	
+    private int id;
+	
+	City(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
 }

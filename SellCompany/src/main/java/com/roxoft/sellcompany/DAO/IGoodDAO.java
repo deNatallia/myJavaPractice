@@ -1,8 +1,8 @@
 package com.roxoft.sellcompany.DAO;
 
 public interface IGoodDAO {
-	public boolean insertGood(String good);
-	public boolean updateGood(String good,int id);
-	public boolean deleteGood(int id);
+	public void insertGood(String good);
+	public void updateGood(String good, int id);
+	public void deleteGood(int id);
 	public String getGoodById(int id);
 }

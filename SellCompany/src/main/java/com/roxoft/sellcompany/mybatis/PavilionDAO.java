@@ -5,9 +5,10 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.roxoft.sellcompany.DAO.IPavilionDAO;
 import com.roxoft.sellcompany.models.shop.Pavilion;
 
-public class PavilionDAO implements IPavilionMapper{
+public class PavilionDAO implements IPavilionDAO{
 	private final static Logger LOGGER = LogManager.getLogger(PavilionDAO.class);
 	private SqlSessionFactory sqlSessionFactory = null;
 	 
@@ -16,17 +17,16 @@ public class PavilionDAO implements IPavilionMapper{
     }
 	
 	@Override
-	public int createPavilion(Pavilion pavilion) {
-		int row = -1;
+	public void insertPavilion(Pavilion pavilion) {
         SqlSession session = sqlSessionFactory.openSession();
         try {
-            row = session.insert("Pavilion.createPavilion", pavilion);
+        	session.insert("com.roxoft.sellcompany.mappings.AddressMapper.insertAddress", pavilion.getAddress());
+            session.insert("com.roxoft.sellcompany.mappings.PavilionMapper.insertPavilion", pavilion);
         } finally {
             session.commit();
             session.close();
         }
         LOGGER.info(pavilion.toString() + " was successfully added to Paviliones table");
-        return row;
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class PavilionDAO implements IPavilionMapper{
 		Pavilion pavilion;
 		SqlSession session = sqlSessionFactory.openSession(); 
         try {
-        	pavilion = (Pavilion) session.selectOne("Pavilion.getPavilionById", id);
+        	pavilion = (Pavilion) session.selectOne("com.roxoft.sellcompany.mappings.PavilionMapper.getPavilionById", id);
         } finally {
             session.commit();
             session.close();
@@ -43,29 +43,32 @@ public class PavilionDAO implements IPavilionMapper{
 	}
 
 	@Override
-	public int updatePavilion(Pavilion pavilion) {
-		int row = -1;
+	public void updatePavilion(Pavilion pavilion) {
 		SqlSession session = sqlSessionFactory.openSession(); 
         try {
-        	row = session.update("Pavilion.updatePavilion", pavilion);
+        	session.update("com.roxoft.sellcompany.mappings.AddressMapper.updateAddress", pavilion.getAddress());
+        	session.update("com.roxoft.sellcompany.mappings.PavilionMapper.updatePavilion", pavilion);
         } finally {
             session.commit();
             session.close();
         }
-        return row;
 	}
 
 	@Override
-	public int deletePavilion(int id) {
-		int row = -1;
+	public void deletePavilion(int id) {
 		SqlSession session = sqlSessionFactory.openSession(); 
         try {
-        	row = session.update("Pavilion.deletePavilion", id);
+        	session.update("com.roxoft.sellcompany.mappings.PavilionMapper.deletePavilion", id);
         } finally {
             session.commit();
             session.close();
         }
-        return row;
+	}
+
+	@Override
+	public int getIdAddress(int id) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

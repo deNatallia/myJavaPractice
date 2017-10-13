@@ -48,7 +48,7 @@ public class JDBCAddressDAO extends AbstractDAO implements IAddressDAO {
 	
 	@Override
 	public void updateAddress(Address address) {
-		String sql = "UPDATE addresses SET STREET=?,HOUSE_NUM=?,COUNTRIES_ID=?,CITIES_ID=? WHERE idAddress=?";
+		String sql = "UPDATE addresses SET STREET=?,HOUSE_NUM=?,COUNTRIES_ID=?,CITIES_ID=? WHERE ID=?";
 		try {
 			connection = getConpool().getConnection();
 			ps = connection.prepareStatement(sql);
@@ -71,7 +71,7 @@ public class JDBCAddressDAO extends AbstractDAO implements IAddressDAO {
 
 	@Override
 	public void deleteAddress(int id) {
-		String sql = "DELETE from addresses WHERE idAddress=?";
+		String sql = "DELETE from addresses WHERE ID=?";
 		try {
 			connection = getConpool().getConnection();
 			ps = connection.prepareStatement(sql);
@@ -89,7 +89,7 @@ public class JDBCAddressDAO extends AbstractDAO implements IAddressDAO {
 
 	@Override
 	public Address getAddressById(int id) {
-		String sql = "SELECT COUNTRY,CITY,STREET,HOUSE_NUM FROM addresses adr LEFT JOIN countries cntr ON cntr.idCOUNTRIES=adr.COUNTRIES_ID LEFT JOIN cities c ON c.idCITIES=adr.CITIES_ID WHERE idAddress=?";
+		String sql = "SELECT COUNTRY,CITY,STREET,HOUSE_NUM FROM addresses adr LEFT JOIN countries cntr ON cntr.idCOUNTRIES=adr.COUNTRIES_ID LEFT JOIN cities c ON c.idCITIES=adr.CITIES_ID WHERE ID=?";
 		Address a = new Address();
 		try {
 			connection = getConpool().getConnection();
@@ -97,7 +97,7 @@ public class JDBCAddressDAO extends AbstractDAO implements IAddressDAO {
 	        ps.setInt(1, id);
 	        rs = ps.executeQuery();
 	        rs.next();
-	        //a.setId(rs.getInt("idAddress"));
+	        //a.setId(rs.getInt("ID"));
 	        a.setCountry(Country.valueOf(rs.getString("COUNTRY")));
 	        a.setCity(City.valueOf(rs.getString("CITY")));
 	        a.setStreet(rs.getString("STREET"));

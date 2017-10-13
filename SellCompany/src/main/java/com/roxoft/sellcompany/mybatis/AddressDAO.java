@@ -6,27 +6,26 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.roxoft.sellcompany.Address;
+import com.roxoft.sellcompany.DAO.IAddressDAO;
 
-public class AddressDAO implements IAddressMapper{
+public class AddressDAO implements IAddressDAO{
 	private final static Logger LOGGER = LogManager.getLogger(AddressDAO.class);
 	private SqlSessionFactory sqlSessionFactory = null;
-	 
+	
     public AddressDAO(SqlSessionFactory sqlSessionFactory){
-        this.sqlSessionFactory = sqlSessionFactory;
+    	this.sqlSessionFactory = sqlSessionFactory;
     }
 	
 	@Override
-	public int createAddress(Address address) {
-		int row = -1;
+	public void insertAddress(Address address) {
         SqlSession session = sqlSessionFactory.openSession();
         try {
-            row = session.insert("com.roxoft.sellcompany.mybatis.AddressMapper.createAddress", address);
+            session.insert("com.roxoft.sellcompany.mappings.AddressMapper.insertAddress", address);
         } finally {
             session.commit();
             session.close();
         }
         LOGGER.info(address.toString() + " was successfully added to Addresses table");
-        return row;
 	}
 
 	@Override
@@ -34,7 +33,7 @@ public class AddressDAO implements IAddressMapper{
 		Address address;
 		SqlSession session = sqlSessionFactory.openSession(); 
         try {
-        	address = (Address) session.selectOne("Address.getAddressById", id);
+        	address = (Address) session.selectOne("com.roxoft.sellcompany.mappings.AddressMapper.getAddressById", id);
         } finally {
             session.commit();
             session.close();
@@ -43,29 +42,24 @@ public class AddressDAO implements IAddressMapper{
 	}
 
 	@Override
-	public int updateAddress(Address address) {
-		int row = -1;
+	public void updateAddress(Address address) {
 		SqlSession session = sqlSessionFactory.openSession(); 
         try {
-        	row = session.update("Address.updateAddress", address);
+        	session.update("com.roxoft.sellcompany.mappings.AddressMapper.updateAddress", address);
         } finally {
             session.commit();
             session.close();
         }
-        return row;
 	}
 
 	@Override
-	public int deleteAddress(int id) {
-		int row = -1;
+	public void deleteAddress(int id) {
 		SqlSession session = sqlSessionFactory.openSession(); 
         try {
-        	row = session.update("Address.deleteAddress", id);
+        	session.update("mapLink.deleteAddress", id);
         } finally {
             session.commit();
             session.close();
         }
-        return row;
 	}
-
 }

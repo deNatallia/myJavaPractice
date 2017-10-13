@@ -23,11 +23,12 @@
 	</environments>
 	<mappers>
 		<mapper resource="com/roxoft/sellcompany/mappings/AddressMapper.xml" />
-<!-- 		<mapper resource="mappings/SupermarketMapper.xml" />
-		<mapper resource="mappings/OnlineshopMapper.xml" />
-		<mapper resource="mappings/PavilionMapper.xml" />
-		<mapper resource="mappings/LogisticstoreMapper.xml" />
-		<mapper resource="mappings/FactorystoreMapper.xml" /> -->
+		<mapper resource="com/roxoft/sellcompany/mappings/PavilionMapper.xml" />
+		<mapper resource="com/roxoft/sellcompany/mappings/SupermarketMapper.xml" />
+		<mapper resource="com/roxoft/sellcompany/mappings/OnlineshopMapper.xml" />
+		<mapper resource="com/roxoft/sellcompany/mappings/LogisticstoreMapper.xml" />
+		<mapper resource="com/roxoft/sellcompany/mappings/ProducersMapper.xml" />
+		<!--<mapper resource="com/roxoft/sellcompany/mappings/FactorystoreMapper.xml" /> -->
 
 	</mappers>
 

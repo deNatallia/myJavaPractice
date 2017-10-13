@@ -6,8 +6,8 @@ import com.roxoft.sellcompany.models.shop.Pavilion;
 import com.roxoft.sellcompany.threads.ConnectionPool;
 
 public class PavilionService {
-	JDBCAddressDAO adao;
-	JDBCPavilionDAO pvdao;
+	private JDBCAddressDAO adao;
+	private JDBCPavilionDAO pvdao;
 	
 	public PavilionService(ConnectionPool conpool){
 		adao = new JDBCAddressDAO();

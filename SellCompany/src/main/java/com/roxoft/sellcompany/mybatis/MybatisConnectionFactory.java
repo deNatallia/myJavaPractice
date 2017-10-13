@@ -13,7 +13,7 @@ public class MybatisConnectionFactory {
     
     static {
         try {
- 
+        	
             String resource = "com/roxoft/sellcompany/mybatis.mysql.config.xml";
             InputStream is = Resources.getResourceAsStream(resource);
  

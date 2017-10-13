@@ -120,7 +120,7 @@ INSERT into logisticstores_has_producers (LOGISTICSTORES_ID,PRODUCERS_ID) VALUES
 INSERT into logisticstores_has_producers (LOGISTICSTORES_ID,PRODUCERS_ID) VALUES (5,10);
 
 SELECT NAME,STAFF_NUM,SQUARE,SECTION_NUM,NEW_ARRIVAL_DATE,COUNTRY,CITY,STREET,HOUSE_NUM from supermarkets,addresses,countries,cities
-WHERE supermarkets.ADDRESSES_ID=addresses.idAddress
+WHERE supermarkets.ADDRESSES_ID=addresses.ID
 AND addresses.COUNTRIES_ID=countries.idCOUNTRIES
 AND addresses.CITIES_ID=cities.idCITIES
 ORDER BY SQUARE;
@@ -129,7 +129,7 @@ UPDATE onlineshops SET NEW_ARRIVAL_DATE='2017-10-01' WHERE ID=3;
 
 SELECT DISTINCT NAME,SITE,STAFF_NUM,MANAGERS_NUM,NEW_ARRIVAL_DATE,COUNTRY,CITY,STREET,HOUSE_NUM from onlineshops AS os
 LEFT JOIN addresses AS adr
-ON adr.idAddress=os.ADDRESSES_ID
+ON adr.ID=os.ADDRESSES_ID
 LEFT JOIN countries AS cntr
 ON cntr.idCOUNTRIES=adr.COUNTRIES_ID
 LEFT JOIN cities AS c
@@ -151,7 +151,7 @@ ON fsg.FACTORYSTORES_ID=fs.ID
 LEFT JOIN goods AS g
 ON g.ID=fsg.GOODS_ID
 LEFT JOIN addresses AS adr
-ON adr.idAddress=fs.ADDRESSES_ID
+ON adr.ID=fs.ADDRESSES_ID
 LEFT JOIN countries AS cntr
 ON cntr.idCOUNTRIES=adr.COUNTRIES_ID
 LEFT JOIN cities AS c

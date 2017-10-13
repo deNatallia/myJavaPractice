@@ -1,7 +1,6 @@
 package com.roxoft.sellcompany.mybatis;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -12,32 +11,33 @@ import org.apache.logging.log4j.Logger;
 import com.roxoft.sellcompany.Address;
 import com.roxoft.sellcompany.City;
 import com.roxoft.sellcompany.Country;
-import com.roxoft.sellcompany.models.shop.Pavilion;
+import com.roxoft.sellcompany.models.shop.OnlineShop;
 
-public class PavilionRunner {
-	private final static Logger LOGGER = LogManager.getLogger(PavilionRunner.class);
+public class OnlineShopRunner {
+	private final static Logger LOGGER = LogManager.getLogger(OnlineShopRunner.class);
 	
 	public static void main(String[] args) throws IOException, ParseException{
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
+		
 		SqlSessionFactory sf = MybatisConnectionFactory.getSqlSessionFactory();
 		AddressDAO ad = new AddressDAO(sf);
-		PavilionDAO pd = new PavilionDAO(sf);
+		OnlineShopDAO od = new OnlineShopDAO(sf);
 		Address a1=new Address();
-		a1.setCountry(Country.BELARUS);
-		a1.setCity(City.MINSK);
-		a1.setStreet("Pushkina");
-		a1.setHouseNum(42);
-		ad.insertAddress(a1);
-		ad.getAddressById(5);
-		Pavilion pv = new Pavilion();
-		pv.setName("KidsThings");
-		pv.setAddress(a1);
-		pv.setStaffNum(3);
-		pv.setPlaceNum(8);
-		pv.setNewArrivalDate(formatter.parse("2017-10-29"));
+		a1.setCountry(Country.UKRAINE);
+		a1.setCity(City.KIEV);
+		a1.setStreet("Vasilevskaya");
+		a1.setHouseNum(12);
+//		ad.insertAddress(a1);
+//		ad.getAddressById(5);
+		OnlineShop os = new OnlineShop();
+		os.setName("FunPets");
+		os.setSite("funpets.ua");
+		os.setAddress(a1);
+		os.setStaffNum(3);
+		os.setManagersNum(8);
+		os.setNewArrivalDate(formatter.parse("2017-10-18"));
 		LOGGER.info(a1.getId());
-		pd.insertPavilion(pv);
-//		pd.getPavilionById(2);
+//		od.insertOnlineShop(os);
+		od.getOnlineShopById(2);
 	}
 }

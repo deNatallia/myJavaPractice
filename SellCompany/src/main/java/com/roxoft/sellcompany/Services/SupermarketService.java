@@ -6,8 +6,8 @@ import com.roxoft.sellcompany.models.shop.Supermarket;
 import com.roxoft.sellcompany.threads.ConnectionPool;
 
 public class SupermarketService {
-	JDBCAddressDAO adao;
-	JDBCSupermarketDAO smdao;
+	private JDBCAddressDAO adao;
+	private JDBCSupermarketDAO smdao;
 	
 	public SupermarketService(ConnectionPool conpool){
 		adao = new JDBCAddressDAO();

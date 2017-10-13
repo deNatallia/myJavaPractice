@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.roxoft.sellcompany.mappings.ProducersMapper">
+
+	<insert id="insertProducers" useGeneratedKeys="true" keyProperty="idWrapper.id" parameterType="java.util.LinkedList">
+		<![CDATA[
+			INSERT ALL
+			<foreach collection="list" item="producers" index="index" >
+				into producers (PRODUCER_NAME,ORDERS_NUM)
+				VALUES
+				(
+					#{producers.name},
+					5
+				)
+			</foreach>
+		]]>	
+	</insert>
+
+	<update id="updateProducers">
+        <![CDATA[
+        	UPDATE
+				producers
+			<foreach collection="list" item="producers" index="index" >
+			SET	
+				#{producers.name}
+			WHERE producers.id = #{id}
+			</foreach>
+		]]>	
+	</update>
+
+	 <delete id="deleteProducers">
+	 	<![CDATA[
+        	DELETE
+        		from producers
+        	WHERE ID in
+			<foreach item="producers" index="index" collection="list">
+        		#{producers}
+  			</foreach>
+        ]]>		
+    </delete>
+	
+<!-- 	<select id="getProducersById">
+		<![CDATA[
+			SELECT PRODUCER_NAME
+			FROM producers p
+			WHERE ID in
+			<foreach item="producers" index="index" collection="list" open="(" separator="," close=")">
+        		#{producers}
+  			</foreach>
+		]]>	
+	</select>	 -->		
+
+</mapper>

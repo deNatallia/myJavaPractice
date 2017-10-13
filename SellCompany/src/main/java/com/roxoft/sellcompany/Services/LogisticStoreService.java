@@ -11,10 +11,10 @@ import com.roxoft.sellcompany.models.storehouse.LogisticStore;
 import com.roxoft.sellcompany.threads.ConnectionPool;
 
 public class LogisticStoreService {
-	JDBCAddressDAO adao;
-	JDBCLogisticStoreDAO ldao;
-	JDBCProducerDAO pdao;
-	JDBCLogisticsHasProducersDAO lpdao;
+	private JDBCAddressDAO adao;
+	private JDBCLogisticStoreDAO ldao;
+	private JDBCProducerDAO pdao;
+	private JDBCLogisticsHasProducersDAO lpdao;
 	
 	public LogisticStoreService(ConnectionPool conpool){
 		adao = new JDBCAddressDAO();

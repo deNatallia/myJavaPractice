@@ -6,8 +6,8 @@ import com.roxoft.sellcompany.models.shop.OnlineShop;
 import com.roxoft.sellcompany.threads.ConnectionPool;
 
 public class OnlineShopService {
-	JDBCAddressDAO adao;
-	JDBCOnlineShopDAO osdao;
+	private JDBCAddressDAO adao;
+	private JDBCOnlineShopDAO osdao;
 	
 	public OnlineShopService(ConnectionPool conpool){
 		adao = new JDBCAddressDAO();

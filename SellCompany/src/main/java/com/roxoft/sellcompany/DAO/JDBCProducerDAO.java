@@ -15,7 +15,7 @@ public class JDBCProducerDAO extends AbstractDAO implements IProducerDAO {
 	private Connection connection = null;
 	private PreparedStatement ps = null;
 	private ResultSet rs = null;
-	private volatile static int generatedKeys;
+	private static int generatedKeys;
 	
 	@Override
 	public void insertProducer(String producer) {

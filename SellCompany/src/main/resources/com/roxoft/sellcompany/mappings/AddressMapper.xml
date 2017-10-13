@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.roxoft.sellcompany.mybatis.AddressMapper">
+<mapper namespace="com.roxoft.sellcompany.mappings.AddressMapper">
 
-	<insert id="createAddress" useGeneratedKeys="true" keyProperty="idAddress">
+	<insert id="insertAddress" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
 			INSERT into addresses (STREET,HOUSE_NUM,COUNTRIES_ID, CITIES_ID)
 			VALUES
 			(
 				#{street},
 				#{houseNum},
-				SELECT idCOUNTRIES from countries WHERE COUNTRY = #{country},
-				SELECT idCITIES from cities WHERE CITY = #{city}
+				#{country.id},
+				#{city.id}
 			)
+		]]>
 	</insert>
 
 	<update id="updateAddress">
+        <![CDATA[
         	UPDATE
 				addresses
 			SET
@@ -32,66 +35,46 @@
 						idCITIES from cities
 						WHERE CITY = #{city}
 				)
-			WHERE idAddress = #{id}
+			WHERE ID = #{id}
+		]]>
 	</update>
 
 	 <delete id="deleteAddress">
+        <![CDATA[
         	DELETE
         		from addresses
         	WHERE
-        		idAddress = #{id}
+        		ID = #{id}
+        ]]>		
     </delete>		
 
 	<resultMap  id="AddressResultMap" type="com.roxoft.sellcompany.Address" autoMapping="false">
-		<id column="idAddress" property="id" />
+		<id column="ID" property="id" />
 		<result column="STREET" property="street" javaType="String" />
 		<result column="HOUSE_NUM" property="houseNum" javaType="Int" />
-		<association property="country" column="COUNTRIES_ID" javaType="String" select="selectCountry" />
-		<association property="city" column="CITIES_ID" javaType="String" select="selectCity" />
+		<association property="country" column="COUNTRIES_ID" select="selectCountry" />
+		<association property="city" column="CITIES_ID" select="selectCity" />
 	</resultMap>
 
-	<select id="selectCountry" resultType="String">
+	<select id="selectCountry" resultType="com.roxoft.sellcompany.Country">
 		SELECT COUNTRY from countries WHERE COUNTRY_ID = #{id}
 	</select>
 
-	<select id="selectCity" resultType="String">
+	<select id="selectCity" resultType="com.roxoft.sellcompany.City">
 		SELECT CITY from cities WHERE CITY_ID = #{id}
 	</select>
 
 	<select id="getAddressById" resultMap="AddressResultMap">
+		<![CDATA[
 			SELECT
 				COUNTRY,CITY, STREET,HOUSE_NUM
-			FROM addresses
-			<!-- LEFT JOIN countries AS cntr
+			FROM addresses adr
+			LEFT JOIN countries AS cntr
 			ON cntr.idCOUNTRIES=adr.COUNTRIES_ID
 			LEFT JOIN cities AS c
-			ON c.idCITIES=adr.CITIES_ID -->
-			WHERE idAddress = #{id}
+			ON c.idCITIES=adr.CITIES_ID
+			WHERE adr.ID = #{id}
+		]]>
 	</select>	
 	
-	
-	<!-- <resultMap  id="AddressResultMap" type="com.roxoft.sellcompany.Address" autoMapping="false">
-		<id column="idAddress" property="id" />
-		<association property="country" column="COUNTRIES_ID" javaType="String" select="CountryResultMap"/>
-		<association property="city" column="CITIES_ID" javaType="String" select="CityResultMap"/>
-		<result column="STREET" property="street" javaType="String" />
-		<result column="HOUSE_NUM" property="houseNum" javaType="Int" />
-	</resultMap>
-	<select id="selectCountry" resultType="String" resultMap="CountryResultMap">
-		SELECT COUNTRY from countries WHERE COUNTRY_ID = #{id}
-	</select>
-	<select id="selectCity" resultType="String" resultMap="CityResultMap">
-		SELECT CITY from cities
-		
-		WHERE CITY_ID = #{id}
-	</select>
-	
-	<resultMap  id="CountryResultMap" type="String" autoMapping="false">
-		<id column="idCOUNTRIES" property="id" />
-		<result column="COUNTRY" property="country" javaType="String" />
-	</resultMap>
-	<resultMap  id="CityResultMap" type="String" autoMapping="false">
-		<id column="idCITIES" property="id" />
-		<result column="CITY" property="city" javaType="String" />
-	</resultMap> -->
 </mapper>

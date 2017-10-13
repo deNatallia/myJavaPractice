@@ -12,10 +12,10 @@ import com.roxoft.sellcompany.models.storehouse.FactoryStore;
 import com.roxoft.sellcompany.threads.ConnectionPool;
 
 public class FactoryStoreService {
-	JDBCAddressDAO adao;
-	JDBCFactoryStoreDAO fdao;
-	JDBCGoodDAO gdao;
-	JDBCFactoryHasGoodsDAO fgdao;
+	private JDBCAddressDAO adao;
+	private JDBCFactoryStoreDAO fdao;
+	private JDBCGoodDAO gdao;
+	private JDBCFactoryHasGoodsDAO fgdao;
 	
 	public FactoryStoreService(ConnectionPool conpool){
 		adao = new JDBCAddressDAO();

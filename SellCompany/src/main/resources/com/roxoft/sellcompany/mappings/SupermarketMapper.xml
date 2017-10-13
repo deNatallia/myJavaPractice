@@ -1,63 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.roxoft.sellcompany.mappings.PavilionMapper">
+<mapper namespace="com.roxoft.sellcompany.mappings.SupermarketMapper">
 
-	<insert id="insertPavilion" useGeneratedKeys="true" keyProperty="id">
+	<insert id="insertSupermarket" useGeneratedKeys="true" keyProperty="id">
 		<![CDATA[
-			INSERT into pavilions (NAME,STAFF_NUM,NEW_ARRIVAL_DATE,PLACE_NUM,ADDRESSES_ID)
+			INSERT into supermarkets (NAME,STAFF_NUM,NEW_ARRIVAL_DATE,SECTION_NUM,SQUARE,ADDRESSES_ID)
 			VALUES
 			(
 				#{name},
 				#{staffNum},
 				#{newArrivalDate},
-				#{placeNum},
+				#{sectionNum},
+				#{square},
 				#{address.id}
 			)
 		]]>	
 	</insert>
 
-	<update id="updatePavilion">
+	<update id="updateSupermarket">
         <![CDATA[
         	UPDATE
-				pavilions
+				supermarkets
 			SET
 				#{name},
 				#{staffNum},
 				#{newArrivalDate},
-				#{placeNum}
-			WHERE id = #{id}
+				#{sectionNum},
+				#{square}
+			WHERE ID = #{id}
 		]]>	
 	</update>
 
-	 <delete id="deletePavilion">
+	 <delete id="deleteSupermarket">
 	 	<![CDATA[
         	DELETE
-        		from pavilions
+        		from supermarkets
         	WHERE
-        		id = #{id}
+        		ID = #{id}
         ]]>		
     </delete>
 	
-	<select id="getPavilionById" resultMap="PavilionResultMap">
+	<select id="getSupermarketById" resultMap="SupermarketResultMap">
 		<![CDATA[
-			SELECT NAME,STAFF_NUM,NEW_ARRIVAL_DATE,PLACE_NUM,HOUSE_NUM,STREET,COUNTRY,CITY
-			FROM pavilions pv
+			SELECT NAME,STAFF_NUM,SQUARE,SECTION_NUM,NEW_ARRIVAL_DATE,HOUSE_NUM,STREET,COUNTRY,CITY
+			FROM supermarkets sm
 			LEFT JOIN addresses a
-			ON a.ID=pv.ADDRESSES_ID
+			ON a.ID=sm.ADDRESSES_ID
 			LEFT JOIN countries cntr
 			ON cntr.idCOUNTRIES=a.COUNTRIES_ID
 			LEFT JOIN cities c
 			ON c.idCITIES=a.CITIES_ID
-			WHERE pv.ID = #{id}
+			WHERE sm.ID = #{id}
 		]]>	
 	</select>			
 
-	<resultMap type="com.roxoft.sellcompany.models.shop.Pavilion" id="PavilionResultMap" autoMapping="false">
+	<resultMap type="com.roxoft.sellcompany.models.shop.Supermarket" id="SupermarketResultMap" autoMapping="false">
 		<id column="ID" property="id" />
 		<result column="NAME" property="name" />
-		<result column="PLACE_NUM" property="placeNum"  />
+		<result column="SECTION_NUM" property="sectionNum"  />
 		<result column="STAFF_NUM" property="staffNum"  />
+		<result column="SQUARE" property="square"  />
 		<result column="NEW_ARRIVAL_DATE" property="newArrivalDate" />
 		<association property="address" column="ADDRESSES_ID" select="getAddressById" />
 	</resultMap>
